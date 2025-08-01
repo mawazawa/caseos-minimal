@@ -8,7 +8,32 @@ CaseOS™ is a revolutionary legal technology platform designed for self-represe
 
 ## Development Commands
 
-### Core Development
+### Docker Development (PRIMARY METHOD - USE THIS!)
+All development MUST use Docker to ensure consistency:
+```bash
+# IMPORTANT: Make sure prisma directory exists with schema.prisma inside
+# If schema.prisma is in root, move it first:
+mkdir -p prisma && mv schema.prisma prisma/
+
+# Start all services (app, PostgreSQL, Redis)
+docker-compose up -d
+
+# View logs
+docker-compose logs -f app
+
+# Stop services
+docker-compose down
+
+# Rebuild after dependencies change
+docker-compose build --no-cache
+
+# Run commands inside container
+docker-compose exec app npm run lint
+docker-compose exec app npm run type-check
+docker-compose exec app npm test
+```
+
+### Core Development (fallback only)
 ```bash
 # Start development server with Turbopack
 npm run dev
@@ -35,24 +60,6 @@ npm run test:coverage
 npm run test:watch
 ```
 
-### Docker Development (MANDATORY)
-All development MUST use Docker to avoid dependency issues:
-```bash
-# Start all services (app, PostgreSQL, Redis)
-docker-compose up -d
-
-# Run tests in Docker
-docker-compose run --rm app npm test
-
-# Check coverage in Docker (must be >90%)
-docker-compose run --rm app npm run test:coverage
-
-# Run with test profile
-docker-compose --profile test up
-
-# Run visual regression tests
-docker-compose --profile visual-test up
-```
 
 ### Playwright E2E Testing
 ```bash
