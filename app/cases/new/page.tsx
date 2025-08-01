@@ -74,17 +74,17 @@ export default function NewCasePage() {
 
     try {
       console.log('📝 Creating new case with data:', formData);
-      
+
       // TODO: Implement actual case creation API call
       // const response = await fetch('/api/cases', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify(formData)
       // });
-      
+
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       console.log('✅ Case created successfully!');
       router.push('/cases');
     } catch (error) {
@@ -123,17 +123,17 @@ export default function NewCasePage() {
         description="Start a new legal matter and organize your case information."
         actions={
           <div className="flex items-center gap-3">
-            <Button 
-              variant="secondary" 
-              size="sm" 
+            <Button
+              variant="secondary"
+              size="sm"
               leftIcon={<ArrowLeft size={14} />}
               onClick={handleBack}
             >
               Back
             </Button>
-            <Button 
-              variant="primary" 
-              size="sm" 
+            <Button
+              variant="primary"
+              size="sm"
               leftIcon={<Save size={14} />}
               onClick={handleSubmit}
               isLoading={isLoading}

@@ -69,9 +69,9 @@ export default function RootLayout({
         {/* Theme script to prevent flash of wrong theme */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
-      <body 
+      <body
         className="font-sans antialiased"
-        style={{ 
+        style={{
           transition: 'var(--theme-transition, none)',
           backgroundColor: 'var(--color-background)',
           color: 'var(--color-text-primary)'

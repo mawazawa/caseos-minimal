@@ -14,12 +14,12 @@ import { useState } from 'react';
 import { AppLayout, PageHeader, PageContent } from '../components/layout/app-layout';
 import { Button } from '../components/ui/button';
 import { Card, CardContent } from '../components/ui/card';
-import { 
-  Bell, 
-  Clock, 
-  CheckCircle, 
-  AlertTriangle, 
-  Info, 
+import {
+  Bell,
+  Clock,
+  CheckCircle,
+  AlertTriangle,
+  Info,
   Scale,
   Settings
 } from 'lucide-react';
@@ -115,9 +115,9 @@ export default function NotificationsPage() {
   };
 
   const markAsRead = (notificationId: string) => {
-    setNotifications(prev => 
-      prev.map(notif => 
-        notif.id === notificationId 
+    setNotifications(prev =>
+      prev.map(notif =>
+        notif.id === notificationId
           ? { ...notif, isRead: true }
           : notif
       )
@@ -125,7 +125,7 @@ export default function NotificationsPage() {
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev => 
+    setNotifications(prev =>
       prev.map(notif => ({ ...notif, isRead: true }))
     );
   };
@@ -165,18 +165,18 @@ export default function NotificationsPage() {
         description={`Stay updated on your legal matters. ${unreadCount} unread notifications.`}
         actions={
           <div className="flex items-center gap-3">
-            <Button 
-              variant="secondary" 
-              size="sm" 
+            <Button
+              variant="secondary"
+              size="sm"
               leftIcon={<CheckCircle size={14} />}
               onClick={markAllAsRead}
               disabled={unreadCount === 0}
             >
               Mark All Read
             </Button>
-            <Button 
-              variant="secondary" 
-              size="sm" 
+            <Button
+              variant="secondary"
+              size="sm"
               leftIcon={<Settings size={14} />}
             >
               Settings
@@ -234,7 +234,7 @@ export default function NotificationsPage() {
                     No notifications
                   </h3>
                   <p className="text-[var(--color-text-secondary)]">
-                    {filter === 'all' 
+                    {filter === 'all'
                       ? "You're all caught up! No notifications to show."
                       : `No ${filter} notifications at this time.`
                     }
@@ -258,13 +258,13 @@ export default function NotificationsPage() {
                       <div className="flex-shrink-0 mt-0.5">
                         {getNotificationIcon(notification.type)}
                       </div>
-                      
+
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-3 mb-1">
                           <h4 className={clsx(
                             'text-[var(--font-size-base)] font-medium truncate',
-                            notification.isRead 
-                              ? 'text-[var(--color-text-secondary)]' 
+                            notification.isRead
+                              ? 'text-[var(--color-text-secondary)]'
                               : 'text-[var(--color-text-primary)]'
                           )}>
                             {notification.title}
@@ -281,16 +281,16 @@ export default function NotificationsPage() {
                             </span>
                           </div>
                         </div>
-                        
+
                         <p className={clsx(
                           'text-[var(--font-size-sm)] mb-2',
-                          notification.isRead 
-                            ? 'text-[var(--color-text-tertiary)]' 
+                          notification.isRead
+                            ? 'text-[var(--color-text-tertiary)]'
                             : 'text-[var(--color-text-secondary)]'
                         )}>
                           {notification.message}
                         </p>
-                        
+
                         {notification.relatedCase && (
                           <div className="flex items-center gap-2 mb-2">
                             <Scale size={12} className="text-[var(--color-text-tertiary)]" />
@@ -299,15 +299,15 @@ export default function NotificationsPage() {
                             </span>
                           </div>
                         )}
-                        
+
                         {notification.actionRequired && (
                           <div className="flex items-center gap-2 mt-3">
                             <Button size="sm" variant="primary">
                               Take Action
                             </Button>
                             {!notification.isRead && (
-                              <Button 
-                                size="sm" 
+                              <Button
+                                size="sm"
                                 variant="secondary"
                                 onClick={(e) => {
                                   e.stopPropagation();

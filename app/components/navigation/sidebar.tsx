@@ -144,7 +144,7 @@ export function Sidebar({ className }: SidebarProps) {
             <Search size={14} />
           </button>
           <ThemeToggle size="md" variant="compact" />
-                    <button 
+                    <button
             onClick={handleNotifications}
             className={clsx(
               'h-6 w-6 rounded-md flex items-center justify-center',
@@ -164,7 +164,7 @@ export function Sidebar({ className }: SidebarProps) {
 
       {/* Quick Actions */}
       <div className="p-3 border-b border-[var(--color-border)]">
-                <button 
+                <button
           onClick={handleNewCase}
           className={clsx(
             'w-full h-8 px-3 rounded-md',

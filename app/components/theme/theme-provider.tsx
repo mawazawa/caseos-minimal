@@ -3,8 +3,8 @@
 /**
  * ████████╗██╗  ██╗███████╗███╗   ███╗███████╗
  * ╚══██╔══╝██║  ██║██╔════╝████╗ ████║██╔════╝
- *    ██║   ███████║█████╗  ██╔████╔██║█████╗  
- *    ██║   ██╔══██║██╔══╝  ██║╚██╔╝██║██╔══╝  
+ *    ██║   ███████║█████╗  ██╔████╔██║█████╗
+ *    ██║   ██╔══██║██╔══╝  ██║╚██╔╝██║██╔══╝
  *    ██║   ██║  ██║███████╗██║ ╚═╝ ██║███████╗
  *    ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝     ╚═╝╚══════╝
  * Comprehensive Dark Mode System - Best Practices Implementation
@@ -43,7 +43,7 @@ function getSystemTheme(): ResolvedTheme {
  */
 function getStoredTheme(): Theme {
   if (typeof window === 'undefined') return 'system';
-  
+
   try {
     const stored = localStorage.getItem(STORAGE_KEY) as Theme;
     return stored || 'system';
@@ -58,7 +58,7 @@ function getStoredTheme(): Theme {
  */
 function setStoredTheme(theme: Theme): void {
   if (typeof window === 'undefined') return;
-  
+
   try {
     localStorage.setItem(STORAGE_KEY, theme);
     console.log(`🎨 Theme preference saved: ${theme}`);
@@ -73,12 +73,12 @@ function setStoredTheme(theme: Theme): void {
  */
 function applyTheme(resolvedTheme: ResolvedTheme): void {
   if (typeof window === 'undefined') return;
-  
+
   const root = document.documentElement;
-  
+
   // Apply data attribute approach (for CSS custom properties)
   root.setAttribute('data-theme', resolvedTheme);
-  
+
   // Apply class-based approach (as fallback)
   if (resolvedTheme === 'dark') {
     root.classList.add('dark');
@@ -87,10 +87,10 @@ function applyTheme(resolvedTheme: ResolvedTheme): void {
     root.classList.add('light');
     root.classList.remove('dark');
   }
-  
+
   // Set color-scheme for browser UI elements (scrollbars, form inputs)
   root.style.colorScheme = resolvedTheme;
-  
+
   console.log(`🌙 Applied theme: ${resolvedTheme}`);
 }
 
@@ -109,11 +109,11 @@ interface ThemeProviderProps {
   enableTransitions?: boolean;
 }
 
-export function ThemeProvider({ 
-  children, 
+export function ThemeProvider({
+  children,
   defaultTheme = 'system',
   enableSystem = true,
-  enableTransitions = true 
+  enableTransitions = true
 }: ThemeProviderProps) {
   const [theme, setThemeState] = useState<Theme>(defaultTheme);
   const [systemTheme, setSystemTheme] = useState<ResolvedTheme>('light');
@@ -128,7 +128,7 @@ export function ThemeProvider({
   const setTheme = useCallback((newTheme: Theme) => {
     setThemeState(newTheme);
     setStoredTheme(newTheme);
-    
+
     const newResolvedTheme = newTheme === 'system' ? systemTheme : newTheme;
     applyTheme(newResolvedTheme);
   }, [systemTheme]);
@@ -147,13 +147,13 @@ export function ThemeProvider({
   useEffect(() => {
     const storedTheme = getStoredTheme();
     const currentSystemTheme = getSystemTheme();
-    
+
     setSystemTheme(currentSystemTheme);
     setThemeState(storedTheme);
-    
+
     const initialResolvedTheme = storedTheme === 'system' ? currentSystemTheme : storedTheme;
     applyTheme(initialResolvedTheme);
-    
+
     setMounted(true);
     console.log(`🚀 Theme provider initialized - stored: ${storedTheme}, resolved: ${initialResolvedTheme}`);
   }, []);
@@ -163,21 +163,21 @@ export function ThemeProvider({
     if (!enableSystem) return;
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
+
     const handleSystemThemeChange = (event: MediaQueryListEvent) => {
       const newSystemTheme = event.matches ? 'dark' : 'light';
       setSystemTheme(newSystemTheme);
-      
+
       // If user is using system theme, apply the new system preference
       if (theme === 'system') {
         applyTheme(newSystemTheme);
       }
-      
+
       console.log(`🔄 System theme changed: ${newSystemTheme}`);
     };
 
     mediaQuery.addEventListener('change', handleSystemThemeChange);
-    
+
     return () => {
       mediaQuery.removeEventListener('change', handleSystemThemeChange);
     };
@@ -189,7 +189,7 @@ export function ThemeProvider({
 
     const timer = setTimeout(() => {
       document.documentElement.style.setProperty(
-        '--theme-transition', 
+        '--theme-transition',
         'background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease'
       );
     }, 100);
@@ -227,11 +227,11 @@ export function ThemeProvider({
  */
 export function useTheme(): ThemeContextType {
   const context = useContext(ThemeContext);
-  
+
   if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
-  
+
   return context;
 }
 
@@ -245,7 +245,7 @@ export const THEME_SCRIPT = `
     var theme = localStorage.getItem('${STORAGE_KEY}') || 'system';
     var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     var resolvedTheme = theme === 'system' ? systemTheme : theme;
-    
+
     document.documentElement.setAttribute('data-theme', resolvedTheme);
     document.documentElement.classList.add(resolvedTheme);
     document.documentElement.style.colorScheme = resolvedTheme;

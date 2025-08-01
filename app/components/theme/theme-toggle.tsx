@@ -3,8 +3,8 @@
 /**
  * ████████╗ ██████╗  ██████╗  ██████╗ ██╗     ███████╗
  * ╚══██╔══╝██╔═══██╗██╔════╝ ██╔════╝ ██║     ██╔════╝
- *    ██║   ██║   ██║██║  ███╗██║  ███╗██║     █████╗  
- *    ██║   ██║   ██║██║   ██║██║   ██║██║     ██╔══╝  
+ *    ██║   ██║   ██║██║  ███╗██║  ███╗██║     █████╗
+ *    ██║   ██║   ██║██║   ██║██║   ██║██║     ██╔══╝
  *    ██║   ╚██████╔╝╚██████╔╝╚██████╔╝███████╗███████╗
  *    ╚═╝    ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝╚══════╝
  * Theme Toggle Component - Linear-inspired Design
@@ -21,23 +21,23 @@ import { useState } from 'react';
  * Using Linear's signature easing curves
  */
 const iconVariants: Variants = {
-  initial: { 
-    scale: 0.5, 
-    opacity: 0, 
-    rotate: -180 
+  initial: {
+    scale: 0.5,
+    opacity: 0,
+    rotate: -180
   },
-  animate: { 
-    scale: 1, 
-    opacity: 1, 
+  animate: {
+    scale: 1,
+    opacity: 1,
     rotate: 0,
     transition: {
       duration: 0.3,
       ease: [0.4, 0, 0.2, 1] // Linear's easing
     }
   },
-  exit: { 
-    scale: 0.5, 
-    opacity: 0, 
+  exit: {
+    scale: 0.5,
+    opacity: 0,
     rotate: 180,
     transition: {
       duration: 0.2,
@@ -48,14 +48,14 @@ const iconVariants: Variants = {
 
 const buttonVariants: Variants = {
   idle: { scale: 1 },
-  hover: { 
+  hover: {
     scale: 1.05,
     transition: {
       duration: 0.2,
       ease: [0.4, 0, 0.2, 1]
     }
   },
-  tap: { 
+  tap: {
     scale: 0.95,
     transition: {
       duration: 0.1,
@@ -74,7 +74,7 @@ interface ThemeToggleProps {
 /**
  * Theme Toggle Component
  * Provides smooth animated toggle between light, dark, and system themes
- * 
+ *
  * Features:
  * - Smooth icon transitions with Framer Motion
  * - Visual feedback for current theme
@@ -82,9 +82,9 @@ interface ThemeToggleProps {
  * - Multiple variants and sizes
  * - Keyboard navigation support
  */
-export function ThemeToggle({ 
-  className, 
-  size = 'md', 
+export function ThemeToggle({
+  className,
+  size = 'md',
   showLabel = false,
   variant = 'default'
 }: ThemeToggleProps) {
@@ -101,7 +101,7 @@ export function ThemeToggle({
   // Button size classes
   const buttonSizes = {
     sm: 'h-5 w-5',
-    md: 'h-6 w-6', 
+    md: 'h-6 w-6',
     lg: 'h-8 w-8'
   };
 
@@ -115,8 +115,8 @@ export function ThemeToggle({
     if (theme === 'system') {
       return <Monitor size={iconSize} />;
     }
-    return resolvedTheme === 'dark' 
-      ? <Moon size={iconSize} /> 
+    return resolvedTheme === 'dark'
+      ? <Moon size={iconSize} />
       : <Sun size={iconSize} />;
   };
 
@@ -138,7 +138,7 @@ export function ThemeToggle({
    */
   const handleToggle = () => {
     toggleTheme();
-    
+
     // Add haptic feedback on supported devices
     if ('vibrate' in navigator) {
       navigator.vibrate(50);
@@ -228,7 +228,7 @@ export function ThemeToggle({
             {getCurrentIcon()}
           </motion.span>
         </AnimatePresence>
-        
+
         {showLabel && (
           <span className="text-[var(--font-size-sm)] font-medium">
             {getThemeLabel()}
@@ -287,7 +287,7 @@ export function ThemeToggle({
  */
 export function useThemeToggle() {
   const { theme, resolvedTheme, toggleTheme, setTheme } = useTheme();
-  
+
   return {
     currentTheme: theme,
     resolvedTheme,

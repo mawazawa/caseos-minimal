@@ -201,23 +201,23 @@ export function SkeletonDemo() {
             <form className="space-y-6">
               <div>
                 <label className="block text-sm font-medium mb-2">Name</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   className="w-full h-10 px-3 rounded-[var(--radius-md)] border border-[var(--color-border)]"
                   placeholder="John Doe"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Email</label>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   className="w-full h-10 px-3 rounded-[var(--radius-md)] border border-[var(--color-border)]"
                   placeholder="john@example.com"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Message</label>
-                <textarea 
+                <textarea
                   className="w-full h-10 px-3 rounded-[var(--radius-md)] border border-[var(--color-border)]"
                   placeholder="Your message..."
                 />
