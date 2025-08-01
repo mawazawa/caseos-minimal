@@ -62,7 +62,7 @@ CommandEmpty.displayName = 'CommandEmpty';
 
 const CommandGroup = React.forwardRef<HTMLDivElement, any>(({ children, value, ...props }, ref) => {
   return (
-    <div ref={ref} {...props} cmdk-group="" role="presentation" value={value} data-value={value}>
+    <div ref={ref} {...props} cmdk-group="" role="presentation" data-value={value}>
       {children}
     </div>
   );
