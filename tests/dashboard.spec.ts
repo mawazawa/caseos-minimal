@@ -148,10 +148,10 @@ test.describe('Dashboard Page', () => {
       };
     });
 
-    expect(styles.colorBackground).toBeTruthy();
-    expect(styles.colorAccent).toBeTruthy();  
-    expect(styles.sidebarWidth).toBe('244px');
-    expect(styles.fontFamily).toContain('Inter');
+    expect(rootStyles.colorBackground).toBeTruthy();
+    expect(rootStyles.colorAccent).toBeTruthy();  
+    expect(rootStyles.sidebarWidth).toBe('244px');
+    expect(rootStyles.fontFamily).toContain('Inter');
   });
 
   test('should have responsive design working', async ({ page }) => {
