@@ -6,7 +6,7 @@
  * ██║ ╚████║███████╗██╔╝ ██╗   ██║   ██║  ██║╚██████╔╝   ██║   ██║  ██║
  * ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝
  * NextAuth.js v5 Configuration - CaseOS Legal AI Platform
- * 
+ *
  * Educational Note: This is where we handle user authentication for our legal platform.
  * Think of it like a super-secure bouncer at a fancy club - it checks who you are
  * and decides if you can come in. We support multiple ways to sign in:
@@ -31,14 +31,14 @@ console.log("🔒 Database adapter configured:", !!prisma)
 const authConfig = {
   // Database adapter - connects auth to our Prisma database
   adapter: PrismaAdapter(prisma),
-  
+
   // Session strategy - we use database sessions for better security and audit trails
   session: {
     strategy: "database" as const,
     maxAge: 30 * 24 * 60 * 60, // 30 days (for user convenience in legal work)
     updateAge: 24 * 60 * 60, // 24 hours (refresh session daily)
   },
-  
+
   // Authentication providers - different ways users can sign in
   providers: [
     // Google OAuth - most users prefer this for convenience
@@ -53,7 +53,7 @@ const authConfig = {
         }
       }
     }),
-    
+
     // Email/Password credentials - for users who prefer traditional login
     Credentials({
       name: "credentials",
@@ -90,7 +90,7 @@ const authConfig = {
           }
 
           console.log("✅ User authenticated successfully:", user.email)
-          
+
           // Return user object (without password for security)
           return {
             id: user.id,
@@ -116,17 +116,17 @@ const authConfig = {
       console.log("🎪 Session created for:", session.user?.email)
       return session
     },
-    
+
     async signIn({ user, account, profile }) {
-      console.log("🚪 Sign in attempt:", { 
-        email: user.email, 
-        provider: account?.provider 
+      console.log("🚪 Sign in attempt:", {
+        email: user.email,
+        provider: account?.provider
       })
-      
+
       // Allow all sign-ins (you could add restrictions here if needed)
       return true
     },
-    
+
     async redirect({ url, baseUrl }) {
       // Redirect to dashboard after successful login
       if (url.startsWith(baseUrl)) return url

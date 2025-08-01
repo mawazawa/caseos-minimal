@@ -3,10 +3,10 @@
  * ╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝    ██╔════╝████╗  ██║██║   ██║
  *    ██║   █████╗  ███████╗   ██║       █████╗  ██╔██╗ ██║██║   ██║
  *    ██║   ██╔══╝  ╚════██║   ██║       ██╔══╝  ██║╚██╗██║╚██╗ ██╔╝
- *    ██║   ███████╗███████║   ██║       ███████╗██║ ╚████║ ╚████╔╝ 
- *    ╚═╝   ╚══════╝╚══════╝   ╚═╝       ╚══════╝╚═╝  ╚═══╝  ╚═══╝  
+ *    ██║   ███████╗███████║   ██║       ███████╗██║ ╚████║ ╚████╔╝
+ *    ╚═╝   ╚══════╝╚══════╝   ╚═╝       ╚══════╝╚═╝  ╚═══╝  ╚═══╝
  * Environment Variable Tests - CaseOS Legal AI Platform
- * 
+ *
  * Educational Note: These are tests to make sure our environment variables
  * are set up correctly. It's like having a checklist before going on a trip
  * to make sure you packed everything you need!
@@ -65,7 +65,7 @@ describe('Environment Configuration', () => {
     it('should validate API key formats', () => {
       const anthropicKey = process.env.ANTHROPIC_API_KEY
       expect(anthropicKey).toMatch(/^sk-ant-/)
-      
+
       const groqKey = process.env.GROQ_API_KEY
       expect(groqKey).toMatch(/^gsk_/)
     })
@@ -123,7 +123,7 @@ describe('Environment Configuration', () => {
     it('should use appropriate environment URLs', () => {
       const nodeEnv = process.env.NODE_ENV
       const appUrl = process.env.NEXT_PUBLIC_APP_URL
-      
+
       if (nodeEnv === 'development') {
         expect(appUrl).toContain('localhost')
       } else if (nodeEnv === 'production') {
@@ -148,7 +148,7 @@ describe('Environment Loading', () => {
       'OPENAI_ORGANIZATION_ID',
       'NEXT_PUBLIC_POSTHOG_KEY'
     ]
-    
+
     optionalVars.forEach(varName => {
       // Should not throw an error even if undefined
       expect(() => process.env[varName]).not.toThrow()
@@ -158,13 +158,13 @@ describe('Environment Loading', () => {
 
 /*
  * Educational Notes for Testing:
- * 
+ *
  * 1. We use describe() to group related tests together
  * 2. Each it() is a single test case
  * 3. expect() checks if something is true or false
  * 4. beforeEach() runs before every test to set things up
  * 5. afterEach() runs after every test to clean up
- * 
+ *
  * These tests help us catch problems early, like:
  * - Missing environment variables
  * - Wrong formats for API keys

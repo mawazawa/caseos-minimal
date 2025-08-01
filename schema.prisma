@@ -491,6 +491,9 @@ enum VerificationStatus {
   VERIFIED
   REJECTED
   SUSPENDED
+
+
+  @@schema("legal")
 }
 
 enum TokenType {
@@ -498,6 +501,9 @@ enum TokenType {
   PASSWORD_RESET
   TWO_FACTOR
   MAGIC_LINK
+
+
+  @@schema("legal")
 }
 
 enum OrganizationType {
@@ -506,6 +512,9 @@ enum OrganizationType {
   PUBLIC_DEFENDER
   CORPORATE_LEGAL
   SOLO_PRACTICE
+
+
+  @@schema("legal")
 }
 
 enum OrganizationRole {
@@ -513,6 +522,9 @@ enum OrganizationRole {
   ADMIN
   MEMBER
   VIEWER
+
+
+  @@schema("legal")
 }
 
 enum SubscriptionTier {
@@ -520,6 +532,9 @@ enum SubscriptionTier {
   BASIC
   PREMIUM
   ENTERPRISE
+
+
+  @@schema("legal")
 }
 
 enum SubscriptionStatus {
@@ -527,12 +542,18 @@ enum SubscriptionStatus {
   SUSPENDED
   CANCELED
   PAST_DUE
+
+
+  @@schema("legal")
 }
 
 enum BillingCycle {
   MONTHLY
   QUARTERLY
   YEARLY
+
+
+  @@schema("legal")
 }
 
 enum CaseType {
@@ -549,6 +570,9 @@ enum CaseType {
   SMALL_CLAIMS
   APPELLATE
   OTHER
+
+
+  @@schema("legal")
 }
 
 enum CourtType {
@@ -563,6 +587,9 @@ enum CourtType {
   PROBATE
   SMALL_CLAIMS
   ADMINISTRATIVE
+
+
+  @@schema("legal")
 }
 
 enum CaseStatus {
@@ -577,6 +604,9 @@ enum CaseStatus {
   SETTLED
   DISMISSED
   CLOSED
+
+
+  @@schema("legal")
 }
 
 enum CasePriority {
@@ -584,6 +614,9 @@ enum CasePriority {
   MEDIUM
   HIGH
   URGENT
+
+
+  @@schema("legal")
 }
 
 enum DocumentType {
@@ -599,6 +632,9 @@ enum DocumentType {
   DISCOVERY
   SETTLEMENT
   OTHER
+
+
+  @@schema("legal")
 }
 
 enum DocumentCategory {
@@ -608,12 +644,18 @@ enum DocumentCategory {
   INTERNAL
   REFERENCE
   TEMPLATE
+
+
+  @@schema("legal")
 }
 
 enum StorageProvider {
   AWS_S3
   CLOUDFLARE_R2
   LOCAL
+
+
+  @@schema("legal")
 }
 
 enum ProcessingStatus {
@@ -622,6 +664,9 @@ enum ProcessingStatus {
   COMPLETED
   FAILED
   QUARANTINED
+
+
+  @@schema("legal")
 }
 
 enum DeadlineType {
@@ -633,6 +678,9 @@ enum DeadlineType {
   APPEAL
   ADMINISTRATIVE
   OTHER
+
+
+  @@schema("legal")
 }
 
 enum DeadlineStatus {
@@ -640,6 +688,9 @@ enum DeadlineStatus {
   COMPLETED
   OVERDUE
   CANCELED
+
+
+  @@schema("legal")
 }
 
 enum Priority {
@@ -647,6 +698,9 @@ enum Priority {
   MEDIUM
   HIGH
   URGENT
+
+
+  @@schema("legal")
 }
 
 enum EventType {
@@ -659,6 +713,9 @@ enum EventType {
   MEETING
   DEADLINE
   OTHER
+
+
+  @@schema("legal")
 }
 
 enum ChatType {
@@ -668,12 +725,18 @@ enum ChatType {
   DOCUMENT_REVIEW
   STRATEGY
   FORM_ASSISTANCE
+
+
+  @@schema("legal")
 }
 
 enum MessageRole {
   USER
   ASSISTANT
   SYSTEM
+
+
+  @@schema("legal")
 }
 
 enum MessageType {
@@ -682,6 +745,9 @@ enum MessageType {
   IMAGE
   AUDIO
   SYSTEM
+
+
+  @@schema("legal")
 }
 
 enum TemplateType {
@@ -690,6 +756,9 @@ enum TemplateType {
   CORRESPONDENCE
   CHECKLIST
   WORKFLOW
+
+
+  @@schema("legal")
 }
 
 enum AuditSeverity {
@@ -697,4 +766,7 @@ enum AuditSeverity {
   WARNING
   ERROR
   CRITICAL
+
+
+  @@schema("legal")
 }
