@@ -1,0 +1,698 @@
+// ██████╗ █████╗ ███████╗███████╗   ██████╗ ███████╗ ™
+//██╔════╝██╔══██╗██╔════╝██╔════╝  ██╔═══██╗██╔════╝
+//██║     ███████║███████╗█████╗    ██║   ██║███████╗
+//██║     ██╔══██║╚════██║██╔══╝    ██║   ██║╚════██║
+//╚██████╗██║  ██║███████║███████╗  ╚██████╔╝███████║
+// ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝   ╚═════╝ ╚══════╝
+// 
+// CaseOS™ Database Schema - Legal-Grade Architecture
+// Designed for self-represented litigants with enterprise security
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema", "fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["auth", "legal", "ai", "audit"]
+}
+
+// ============================================================================
+// AUTHENTICATION & USER MANAGEMENT SCHEMA
+// ============================================================================
+
+model User {
+  // Core Identity
+  id            String   @id @default(cuid())
+  email         String   @unique
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  
+  // Legal-specific fields
+  barNumber     String?  @unique  // For licensed attorneys who join
+  jurisdiction  String[] // States/jurisdictions they can practice
+  userType      UserType @default(SELF_REPRESENTED)
+  verifiedStatus VerificationStatus @default(PENDING)
+  
+  // Security & Compliance
+  lastLogin     DateTime?
+  loginAttempts Int      @default(0)
+  lockedUntil   DateTime?
+  twoFactorEnabled Boolean @default(false)
+  twoFactorSecret String?
+  
+  // Privacy & Consent
+  privacyConsent    Boolean   @default(false)
+  marketingConsent  Boolean   @default(false)
+  dataRetentionConsent Boolean @default(false)
+  consentTimestamp  DateTime?
+  
+  // Relationships
+  accounts      Account[]
+  sessions      Session[]
+  legalCases    LegalCase[]
+  organizations OrganizationMember[]
+  aiChats       AiChat[]
+  documents     Document[]
+  auditLogs     AuditLog[]
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime? // Soft delete for legal compliance
+
+  @@schema("auth")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([provider, providerAccountId])
+  @@schema("auth")
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Security enhancements
+  ipAddress    String?
+  userAgent    String?
+  deviceId     String?
+  location     String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("auth")
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+  type       TokenType @default(EMAIL_VERIFICATION)
+
+  @@id([identifier, token])
+  @@schema("auth")
+}
+
+// Multi-tenant organization support
+model Organization {
+  id          String @id @default(cuid())
+  name        String
+  slug        String @unique
+  type        OrganizationType
+  description String?
+  
+  // Legal practice information
+  barAssociationId String?
+  licenseNumber   String?
+  licenseStates   String[]
+  
+  // Billing & subscription
+  subscriptionTier SubscriptionTier @default(BASIC)
+  subscriptionStatus SubscriptionStatus @default(ACTIVE)
+  billingCycle    BillingCycle @default(MONTHLY)
+  
+  // Members and cases
+  members     OrganizationMember[]
+  legalCases  LegalCase[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@schema("auth")
+}
+
+model OrganizationMember {
+  id           String @id @default(cuid())
+  userId       String
+  organizationId String
+  role         OrganizationRole
+  permissions  Json // Flexible permission structure
+  
+  user         User @relation(fields: [userId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, organizationId])
+  @@schema("auth")
+}
+
+// ============================================================================
+// LEGAL CASE MANAGEMENT SCHEMA  
+// ============================================================================
+
+model LegalCase {
+  id              String @id @default(cuid())
+  caseNumber      String? @unique // Court-assigned case number
+  internalNumber  String @unique // CaseOS internal tracking
+  
+  // Basic case information
+  title           String
+  description     String?
+  caseType        CaseType
+  courtType       CourtType
+  jurisdiction    String // State/federal jurisdiction
+  county          String?
+  courtName       String?
+  
+  // Case status and timeline
+  status          CaseStatus @default(DRAFT)
+  priority        CasePriority @default(MEDIUM)
+  filingDeadline  DateTime?
+  nextHearing     DateTime?
+  expectedDuration Int? // Estimated duration in days
+  
+  // Parties involved
+  plaintiff       String[]
+  defendant       String[]
+  attorneys       Json? // Attorney information
+  judges          String[]
+  
+  // Case value and financial
+  disputeAmount   Decimal? @db.Money
+  courtFees       Decimal? @db.Money
+  estimatedCosts  Decimal? @db.Money
+  
+  // AI and automation
+  aiSummary       String?
+  riskAssessment  Json? // AI-generated risk factors
+  recommendedActions Json[] // AI suggested next steps
+  
+  // Relationships
+  userId          String
+  organizationId  String?
+  user            User @relation(fields: [userId], references: [id])
+  organization    Organization? @relation(fields: [organizationId], references: [id])
+  
+  documents       Document[]
+  deadlines       Deadline[]
+  events          CaseEvent[]
+  aiChats         AiChat[]
+  templates       CaseTemplate[]
+  
+  // Metadata
+  tags            String[]
+  customFields    Json? // Flexible additional fields
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@schema("legal")
+}
+
+model Document {
+  id              String @id @default(cuid())
+  
+  // Document identification
+  title           String
+  description     String?
+  documentType    DocumentType
+  category        DocumentCategory
+  
+  // File information
+  filename        String
+  originalName    String
+  mimeType        String
+  fileSize        Int
+  fileHash        String @unique // SHA-256 hash for integrity
+  
+  // Storage location
+  storageProvider StorageProvider
+  storagePath     String
+  storageUrl      String?
+  
+  // Legal metadata
+  isConfidential  Boolean @default(true)
+  isPrivileged    Boolean @default(false)
+  retentionDate   DateTime? // When document can be deleted
+  legalHold       Boolean @default(false)
+  
+  // Processing status
+  processingStatus ProcessingStatus @default(PENDING)
+  ocrText         String? // Extracted text content
+  aiSummary       String? // AI-generated summary
+  extractedData   Json? // Structured data extraction
+  
+  // Version control
+  version         Int @default(1)
+  parentId        String? // Reference to parent document
+  parent          Document? @relation("DocumentVersions", fields: [parentId], references: [id])
+  versions        Document[] @relation("DocumentVersions")
+  
+  // Relationships
+  userId          String
+  legalCaseId     String?
+  user            User @relation(fields: [userId], references: [id])
+  legalCase       LegalCase? @relation(fields: [legalCaseId], references: [id])
+  
+  // Access control
+  sharedWith      Json[] // Users/orgs with access
+  accessLog       Json[] // Access history
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@schema("legal")
+}
+
+model Deadline {
+  id            String @id @default(cuid())
+  
+  title         String
+  description   String?
+  deadlineType  DeadlineType
+  dueDate       DateTime
+  
+  // Priority and status
+  priority      Priority @default(MEDIUM)
+  status        DeadlineStatus @default(PENDING)
+  completedAt   DateTime?
+  
+  // Notifications
+  reminderSettings Json // Notification preferences
+  notificationsSent Json[] // Tracking sent notifications
+  
+  // Relationships
+  legalCaseId   String
+  userId        String
+  legalCase     LegalCase @relation(fields: [legalCaseId], references: [id])
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("legal")
+}
+
+model CaseEvent {
+  id            String @id @default(cuid())
+  
+  title         String
+  description   String?
+  eventType     EventType
+  scheduledDate DateTime?
+  actualDate    DateTime?
+  
+  // Location and logistics
+  location      String?
+  virtualMeetingUrl String?
+  attendees     Json[]
+  
+  // Event details
+  duration      Int? // Duration in minutes
+  outcome       String?
+  notes         String?
+  
+  // Relationships
+  legalCaseId   String
+  legalCase     LegalCase @relation(fields: [legalCaseId], references: [id])
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("legal")
+}
+
+// ============================================================================
+// AI & CHAT SYSTEM SCHEMA
+// ============================================================================
+
+model AiChat {
+  id            String @id @default(cuid())
+  
+  title         String?
+  summary       String?
+  
+  // Chat context
+  chatType      ChatType @default(GENERAL)
+  context       Json? // Conversation context and memory
+  
+  // Relationships
+  userId        String
+  legalCaseId   String?
+  user          User @relation(fields: [userId], references: [id])
+  legalCase     LegalCase? @relation(fields: [legalCaseId], references: [id])
+  
+  messages      AiMessage[]
+  
+  // Chat settings
+  modelUsed     String?
+  temperature   Float?
+  maxTokens     Int?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@schema("ai")
+}
+
+model AiMessage {
+  id          String @id @default(cuid())
+  
+  content     String
+  role        MessageRole
+  messageType MessageType @default(TEXT)
+  
+  // AI metadata
+  tokenCount  Int?
+  modelUsed   String?
+  confidence  Float?
+  
+  // Message context
+  citations   Json[] // Legal citations and sources
+  suggestions Json[] // AI suggestions
+  
+  // Relationships
+  chatId      String
+  chat        AiChat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("ai")
+}
+
+// ============================================================================
+// LEGAL TEMPLATES & FORMS SCHEMA
+// ============================================================================
+
+model CaseTemplate {
+  id            String @id @default(cuid())
+  
+  name          String
+  description   String?
+  templateType  TemplateType
+  jurisdiction  String[]
+  caseTypes     CaseType[]
+  
+  // Template content
+  content       Json // Template structure and fields
+  schema        Json // JSON schema for validation
+  
+  // Template metadata
+  isOfficial    Boolean @default(false)
+  authorId      String?
+  category      String[]
+  tags          String[]
+  
+  // Usage statistics
+  usageCount    Int @default(0)
+  rating        Float?
+  
+  // Relationships
+  legalCases    LegalCase[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@schema("legal")
+}
+
+// ============================================================================
+// AUDIT & COMPLIANCE SCHEMA
+// ============================================================================
+
+model AuditLog {
+  id            String @id @default(cuid())
+  
+  // Event details
+  action        String
+  resource      String
+  resourceId    String?
+  
+  // User context
+  userId        String?
+  user          User? @relation(fields: [userId], references: [id])
+  sessionId     String?
+  
+  // Technical context
+  ipAddress     String?
+  userAgent     String?
+  endpoint      String?
+  method        String?
+  
+  // Data changes
+  oldValues     Json?
+  newValues     Json?
+  
+  // Metadata
+  metadata      Json?
+  severity      AuditSeverity @default(INFO)
+  
+  createdAt DateTime @default(now())
+
+  @@schema("audit")
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum UserType {
+  SELF_REPRESENTED
+  ATTORNEY
+  PARALEGAL
+  ADMIN
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+  SUSPENDED
+}
+
+enum TokenType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+  TWO_FACTOR
+  MAGIC_LINK
+}
+
+enum OrganizationType {
+  LAW_FIRM
+  LEGAL_AID
+  PUBLIC_DEFENDER
+  CORPORATE_LEGAL
+  SOLO_PRACTICE
+}
+
+enum OrganizationRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum SubscriptionTier {
+  FREE
+  BASIC
+  PREMIUM
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  SUSPENDED
+  CANCELED
+  PAST_DUE
+}
+
+enum BillingCycle {
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum CaseType {
+  CIVIL_LITIGATION
+  FAMILY_LAW
+  CRIMINAL_DEFENSE
+  PERSONAL_INJURY
+  BANKRUPTCY
+  IMMIGRATION
+  ESTATE_PLANNING
+  REAL_ESTATE
+  EMPLOYMENT
+  CONTRACT_DISPUTE
+  SMALL_CLAIMS
+  APPELLATE
+  OTHER
+}
+
+enum CourtType {
+  FEDERAL_DISTRICT
+  FEDERAL_APPELLATE
+  FEDERAL_SUPREME
+  STATE_TRIAL
+  STATE_APPELLATE
+  STATE_SUPREME
+  MUNICIPAL
+  FAMILY
+  PROBATE
+  SMALL_CLAIMS
+  ADMINISTRATIVE
+}
+
+enum CaseStatus {
+  DRAFT
+  FILED
+  DISCOVERY
+  MOTION_PRACTICE
+  TRIAL_PREP
+  TRIAL
+  POST_TRIAL
+  APPEAL
+  SETTLED
+  DISMISSED
+  CLOSED
+}
+
+enum CasePriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum DocumentType {
+  PLEADING
+  MOTION
+  ORDER
+  BRIEF
+  EVIDENCE
+  CORRESPONDENCE
+  CONTRACT
+  AFFIDAVIT
+  SUBPOENA
+  DISCOVERY
+  SETTLEMENT
+  OTHER
+}
+
+enum DocumentCategory {
+  COURT_FILING
+  EVIDENCE
+  CORRESPONDENCE
+  INTERNAL
+  REFERENCE
+  TEMPLATE
+}
+
+enum StorageProvider {
+  AWS_S3
+  CLOUDFLARE_R2
+  LOCAL
+}
+
+enum ProcessingStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  QUARANTINED
+}
+
+enum DeadlineType {
+  FILING
+  DISCOVERY
+  MOTION
+  HEARING
+  TRIAL
+  APPEAL
+  ADMINISTRATIVE
+  OTHER
+}
+
+enum DeadlineStatus {
+  PENDING
+  COMPLETED
+  OVERDUE
+  CANCELED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum EventType {
+  HEARING
+  DEPOSITION
+  MEDIATION
+  ARBITRATION
+  TRIAL
+  CONFERENCE
+  MEETING
+  DEADLINE
+  OTHER
+}
+
+enum ChatType {
+  GENERAL
+  CASE_SPECIFIC
+  LEGAL_RESEARCH
+  DOCUMENT_REVIEW
+  STRATEGY
+  FORM_ASSISTANCE
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
+
+enum MessageType {
+  TEXT
+  DOCUMENT
+  IMAGE
+  AUDIO
+  SYSTEM
+}
+
+enum TemplateType {
+  COURT_FORM
+  LEGAL_DOCUMENT
+  CORRESPONDENCE
+  CHECKLIST
+  WORKFLOW
+}
+
+enum AuditSeverity {
+  INFO
+  WARNING
+  ERROR
+  CRITICAL
+}
