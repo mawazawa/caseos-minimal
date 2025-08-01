@@ -59,7 +59,12 @@ describe('Environment Configuration', () => {
     it('should validate DATABASE_URL format', () => {
       const dbUrl = process.env.DATABASE_URL
       expect(dbUrl).toMatch(/^postgres:\/\//)
-      expect(dbUrl).toContain('neon.tech')
+      // In test environment, we use a local test database
+      if (process.env.NODE_ENV === 'test') {
+        expect(dbUrl).toContain('localhost')
+      } else {
+        expect(dbUrl).toContain('neon.tech')
+      }
     })
 
     it('should validate API key formats', () => {

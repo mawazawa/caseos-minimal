@@ -4,7 +4,7 @@
 //██║     ██╔══██║╚════██║██╔══╝    ██║   ██║╚════██║
 //╚██████╗██║  ██║███████║███████╗  ╚██████╔╝███████║
 // ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝   ╚═════╝ ╚══════╝
-// 
+//
 // CaseOS™ Database Schema - Legal-Grade Architecture
 // Designed for self-represented litigants with enterprise security
 
@@ -30,26 +30,26 @@ model User {
   emailVerified DateTime?
   name          String?
   image         String?
-  
+
   // Legal-specific fields
   barNumber     String?  @unique  // For licensed attorneys who join
   jurisdiction  String[] // States/jurisdictions they can practice
   userType      UserType @default(SELF_REPRESENTED)
   verifiedStatus VerificationStatus @default(PENDING)
-  
+
   // Security & Compliance
   lastLogin     DateTime?
   loginAttempts Int      @default(0)
   lockedUntil   DateTime?
   twoFactorEnabled Boolean @default(false)
   twoFactorSecret String?
-  
+
   // Privacy & Consent
   privacyConsent    Boolean   @default(false)
   marketingConsent  Boolean   @default(false)
   dataRetentionConsent Boolean @default(false)
   consentTimestamp  DateTime?
-  
+
   // Relationships
   accounts      Account[]
   sessions      Session[]
@@ -58,7 +58,7 @@ model User {
   aiChats       AiChat[]
   documents     Document[]
   auditLogs     AuditLog[]
-  
+
   // Timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -79,9 +79,9 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-  
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -94,13 +94,13 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   // Security enhancements
   ipAddress    String?
   userAgent    String?
   deviceId     String?
   location     String?
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -124,21 +124,21 @@ model Organization {
   slug        String @unique
   type        OrganizationType
   description String?
-  
+
   // Legal practice information
   barAssociationId String?
   licenseNumber   String?
   licenseStates   String[]
-  
+
   // Billing & subscription
   subscriptionTier SubscriptionTier @default(BASIC)
   subscriptionStatus SubscriptionStatus @default(ACTIVE)
   billingCycle    BillingCycle @default(MONTHLY)
-  
+
   // Members and cases
   members     OrganizationMember[]
   legalCases  LegalCase[]
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
@@ -152,10 +152,10 @@ model OrganizationMember {
   organizationId String
   role         OrganizationRole
   permissions  Json // Flexible permission structure
-  
+
   user         User @relation(fields: [userId], references: [id])
   organization Organization @relation(fields: [organizationId], references: [id])
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -164,14 +164,14 @@ model OrganizationMember {
 }
 
 // ============================================================================
-// LEGAL CASE MANAGEMENT SCHEMA  
+// LEGAL CASE MANAGEMENT SCHEMA
 // ============================================================================
 
 model LegalCase {
   id              String @id @default(cuid())
   caseNumber      String? @unique // Court-assigned case number
   internalNumber  String @unique // CaseOS internal tracking
-  
+
   // Basic case information
   title           String
   description     String?
@@ -180,46 +180,46 @@ model LegalCase {
   jurisdiction    String // State/federal jurisdiction
   county          String?
   courtName       String?
-  
+
   // Case status and timeline
   status          CaseStatus @default(DRAFT)
   priority        CasePriority @default(MEDIUM)
   filingDeadline  DateTime?
   nextHearing     DateTime?
   expectedDuration Int? // Estimated duration in days
-  
+
   // Parties involved
   plaintiff       String[]
   defendant       String[]
   attorneys       Json? // Attorney information
   judges          String[]
-  
+
   // Case value and financial
   disputeAmount   Decimal? @db.Money
   courtFees       Decimal? @db.Money
   estimatedCosts  Decimal? @db.Money
-  
+
   // AI and automation
   aiSummary       String?
   riskAssessment  Json? // AI-generated risk factors
   recommendedActions Json[] // AI suggested next steps
-  
+
   // Relationships
   userId          String
   organizationId  String?
   user            User @relation(fields: [userId], references: [id])
   organization    Organization? @relation(fields: [organizationId], references: [id])
-  
+
   documents       Document[]
   deadlines       Deadline[]
   events          CaseEvent[]
   aiChats         AiChat[]
   templates       CaseTemplate[]
-  
+
   // Metadata
   tags            String[]
   customFields    Json? // Flexible additional fields
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
@@ -229,53 +229,53 @@ model LegalCase {
 
 model Document {
   id              String @id @default(cuid())
-  
+
   // Document identification
   title           String
   description     String?
   documentType    DocumentType
   category        DocumentCategory
-  
+
   // File information
   filename        String
   originalName    String
   mimeType        String
   fileSize        Int
   fileHash        String @unique // SHA-256 hash for integrity
-  
+
   // Storage location
   storageProvider StorageProvider
   storagePath     String
   storageUrl      String?
-  
+
   // Legal metadata
   isConfidential  Boolean @default(true)
   isPrivileged    Boolean @default(false)
   retentionDate   DateTime? // When document can be deleted
   legalHold       Boolean @default(false)
-  
+
   // Processing status
   processingStatus ProcessingStatus @default(PENDING)
   ocrText         String? // Extracted text content
   aiSummary       String? // AI-generated summary
   extractedData   Json? // Structured data extraction
-  
+
   // Version control
   version         Int @default(1)
   parentId        String? // Reference to parent document
   parent          Document? @relation("DocumentVersions", fields: [parentId], references: [id])
   versions        Document[] @relation("DocumentVersions")
-  
+
   // Relationships
   userId          String
   legalCaseId     String?
   user            User @relation(fields: [userId], references: [id])
   legalCase       LegalCase? @relation(fields: [legalCaseId], references: [id])
-  
+
   // Access control
   sharedWith      Json[] // Users/orgs with access
   accessLog       Json[] // Access history
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
@@ -285,26 +285,26 @@ model Document {
 
 model Deadline {
   id            String @id @default(cuid())
-  
+
   title         String
   description   String?
   deadlineType  DeadlineType
   dueDate       DateTime
-  
+
   // Priority and status
   priority      Priority @default(MEDIUM)
   status        DeadlineStatus @default(PENDING)
   completedAt   DateTime?
-  
+
   // Notifications
   reminderSettings Json // Notification preferences
   notificationsSent Json[] // Tracking sent notifications
-  
+
   // Relationships
   legalCaseId   String
   userId        String
   legalCase     LegalCase @relation(fields: [legalCaseId], references: [id])
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -313,27 +313,27 @@ model Deadline {
 
 model CaseEvent {
   id            String @id @default(cuid())
-  
+
   title         String
   description   String?
   eventType     EventType
   scheduledDate DateTime?
   actualDate    DateTime?
-  
+
   // Location and logistics
   location      String?
   virtualMeetingUrl String?
   attendees     Json[]
-  
+
   // Event details
   duration      Int? // Duration in minutes
   outcome       String?
   notes         String?
-  
+
   // Relationships
   legalCaseId   String
   legalCase     LegalCase @relation(fields: [legalCaseId], references: [id])
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -346,27 +346,27 @@ model CaseEvent {
 
 model AiChat {
   id            String @id @default(cuid())
-  
+
   title         String?
   summary       String?
-  
+
   // Chat context
   chatType      ChatType @default(GENERAL)
   context       Json? // Conversation context and memory
-  
+
   // Relationships
   userId        String
   legalCaseId   String?
   user          User @relation(fields: [userId], references: [id])
   legalCase     LegalCase? @relation(fields: [legalCaseId], references: [id])
-  
+
   messages      AiMessage[]
-  
+
   // Chat settings
   modelUsed     String?
   temperature   Float?
   maxTokens     Int?
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
@@ -376,24 +376,24 @@ model AiChat {
 
 model AiMessage {
   id          String @id @default(cuid())
-  
+
   content     String
   role        MessageRole
   messageType MessageType @default(TEXT)
-  
+
   // AI metadata
   tokenCount  Int?
   modelUsed   String?
   confidence  Float?
-  
+
   // Message context
   citations   Json[] // Legal citations and sources
   suggestions Json[] // AI suggestions
-  
+
   // Relationships
   chatId      String
   chat        AiChat @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -406,30 +406,30 @@ model AiMessage {
 
 model CaseTemplate {
   id            String @id @default(cuid())
-  
+
   name          String
   description   String?
   templateType  TemplateType
   jurisdiction  String[]
   caseTypes     CaseType[]
-  
+
   // Template content
   content       Json // Template structure and fields
   schema        Json // JSON schema for validation
-  
+
   // Template metadata
   isOfficial    Boolean @default(false)
   authorId      String?
   category      String[]
   tags          String[]
-  
+
   // Usage statistics
   usageCount    Int @default(0)
   rating        Float?
-  
+
   // Relationships
   legalCases    LegalCase[]
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
@@ -443,31 +443,31 @@ model CaseTemplate {
 
 model AuditLog {
   id            String @id @default(cuid())
-  
+
   // Event details
   action        String
   resource      String
   resourceId    String?
-  
+
   // User context
   userId        String?
   user          User? @relation(fields: [userId], references: [id])
   sessionId     String?
-  
+
   // Technical context
   ipAddress     String?
   userAgent     String?
   endpoint      String?
   method        String?
-  
+
   // Data changes
   oldValues     Json?
   newValues     Json?
-  
+
   // Metadata
   metadata      Json?
   severity      AuditSeverity @default(INFO)
-  
+
   createdAt DateTime @default(now())
 
   @@schema("audit")
