@@ -17,7 +17,6 @@ import {
   Plus,
   Search,
   Filter,
-  MoreHorizontal
 } from 'lucide-react';
 import { AppLayout, PageHeader, PageContent } from './components/layout/app-layout';
 import { Button } from './components/ui/button';
