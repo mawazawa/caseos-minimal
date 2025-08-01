@@ -60,10 +60,10 @@ export default function Dashboard() {
                     Active Cases
                   </p>
                   <p className="text-[var(--color-text-primary)] text-[var(--font-size-2xl)] font-semibold mt-1">
-                    3
+                    0
                   </p>
-                  <p className="text-[var(--color-accent)] text-[var(--font-size-xs)] font-medium mt-1">
-                    +1 this month
+                  <p className="text-[var(--color-text-tertiary)] text-[var(--font-size-xs)] font-medium mt-1">
+                    Get started by creating your first case
                   </p>
                 </div>
                 <div className="text-[var(--color-accent)] flex-shrink-0">
@@ -80,10 +80,10 @@ export default function Dashboard() {
                     Upcoming Events
                   </p>
                   <p className="text-[var(--color-text-primary)] text-[var(--font-size-2xl)] font-semibold mt-1">
-                    2
+                    0
                   </p>
-                  <p className="text-[var(--color-accent)] text-[var(--font-size-xs)] font-medium mt-1">
-                    Next: Jan 12
+                  <p className="text-[var(--color-text-tertiary)] text-[var(--font-size-xs)] font-medium mt-1">
+                    No upcoming events scheduled
                   </p>
                 </div>
                 <div className="text-[var(--color-accent)] flex-shrink-0">
@@ -97,13 +97,13 @@ export default function Dashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] font-medium">
-                    Response Time
+                    Documents
                   </p>
                   <p className="text-[var(--color-text-primary)] text-[var(--font-size-2xl)] font-semibold mt-1">
-                    2.3 days
+                    0
                   </p>
-                  <p className="text-[var(--color-accent)] text-[var(--font-size-xs)] font-medium mt-1">
-                    15% faster
+                  <p className="text-[var(--color-text-tertiary)] text-[var(--font-size-xs)] font-medium mt-1">
+                    Upload your legal documents
                   </p>
                 </div>
                 <div className="text-[var(--color-accent)] flex-shrink-0">
@@ -117,13 +117,13 @@ export default function Dashboard() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] font-medium">
-                    Success Rate
+                    AI Conversations
                   </p>
                   <p className="text-[var(--color-text-primary)] text-[var(--font-size-2xl)] font-semibold mt-1">
-                    89%
+                    0
                   </p>
-                  <p className="text-[var(--color-accent)] text-[var(--font-size-xs)] font-medium mt-1">
-                    +5% this year
+                  <p className="text-[var(--color-text-tertiary)] text-[var(--font-size-xs)] font-medium mt-1">
+                    Start chatting with AI legal assistant
                   </p>
                 </div>
                 <div className="text-[var(--color-accent)] flex-shrink-0">
@@ -146,96 +146,20 @@ export default function Dashboard() {
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent className="px-0">
-                <div className="space-y-0">
-                  {/* Replace mock data with actual queries */}
-                  <div
-                    className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-3">
-                          <div className={`
-                            w-2 h-2 rounded-full flex-shrink-0
-                            bg-[var(--color-success)]
-                          `} />
-                          <h4 className="text-[var(--color-text-primary)] font-medium text-[var(--font-size-base)] truncate">
-                            Landlord Dispute - Security Deposit
-                          </h4>
-                          <span className={`
-                            px-2 py-1 rounded-full text-[var(--font-size-xs)] font-medium
-                            bg-[var(--color-error-background)] text-[var(--color-error)]
-                          `}>
-                            high
-                          </span>
-                        </div>
-                        <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] mt-1">
-                          Submit response • 2 hours ago
-                        </p>
-                      </div>
-                      <Button variant="ghost" size="sm">
-                        <MoreHorizontal size={16} />
-                      </Button>
-                    </div>
+              <CardContent className="px-6 py-12">
+                <div className="text-center">
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-[var(--color-background-secondary)] flex items-center justify-center">
+                    <FileText className="w-6 h-6 text-[var(--color-text-tertiary)]" />
                   </div>
-                  <div
-                    className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-3">
-                          <div className={`
-                            w-2 h-2 rounded-full flex-shrink-0
-                            bg-[var(--color-warning)]
-                          `} />
-                          <h4 className="text-[var(--color-text-primary)] font-medium text-[var(--font-size-base)] truncate">
-                            Small Claims - Invoice Payment
-                          </h4>
-                          <span className={`
-                            px-2 py-1 rounded-full text-[var(--font-size-xs)] font-medium
-                            bg-[var(--color-warning-background)] text-[var(--color-warning)]
-                          `}>
-                            medium
-                          </span>
-                        </div>
-                        <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] mt-1">
-                          Wait for court date • 1 day ago
-                        </p>
-                      </div>
-                      <Button variant="ghost" size="sm">
-                        <MoreHorizontal size={16} />
-                      </Button>
-                    </div>
-                  </div>
-                  <div
-                    className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-3">
-                          <div className={`
-                            w-2 h-2 rounded-full flex-shrink-0
-                            bg-[var(--color-text-tertiary)]
-                          `} />
-                          <h4 className="text-[var(--color-text-primary)] font-medium text-[var(--font-size-base)] truncate">
-                            Employment Issue - Wage Dispute
-                          </h4>
-                          <span className={`
-                            px-2 py-1 rounded-full text-[var(--font-size-xs)] font-medium
-                            bg-[var(--color-background-secondary)] text-[var(--color-text-secondary)]
-                          `}>
-                            low
-                          </span>
-                        </div>
-                        <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] mt-1">
-                          Case closed • 1 week ago
-                        </p>
-                      </div>
-                      <Button variant="ghost" size="sm">
-                        <MoreHorizontal size={16} />
-                      </Button>
-                    </div>
-                  </div>
+                  <h3 className="text-[var(--color-text-primary)] font-medium mb-2">
+                    No cases yet
+                  </h3>
+                  <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] mb-6 max-w-sm mx-auto">
+                    Create your first case to start organizing your legal matters and get AI-powered assistance.
+                  </p>
+                  <Button variant="primary" size="sm" leftIcon={<Plus size={14} />}>
+                    Create First Case
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -247,41 +171,17 @@ export default function Dashboard() {
               <CardHeader className="px-6 pt-6 pb-4">
                 <CardTitle>Upcoming Events</CardTitle>
               </CardHeader>
-              <CardContent className="px-0">
-                <div className="space-y-0">
-                  {/* Replace mock data with actual queries */}
-                  <div
-                    className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
-                  >
-                    <h4 className="text-[var(--color-text-primary)] font-medium text-[var(--font-size-base)] leading-tight">
-                      Court Hearing - Case #2024-001
-                    </h4>
-                    <div className="mt-2 space-y-1">
-                      <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)]">
-                        Jan 15, 2025 at 9:00 AM
-                      </p>
-                      <p className="text-[var(--color-text-tertiary)] text-[var(--font-size-sm)]">
-                        Superior Court Room 4A
-                      </p>
-                    </div>
+              <CardContent className="px-6 py-8">
+                <div className="text-center">
+                  <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-[var(--color-background-secondary)] flex items-center justify-center">
+                    <Calendar className="w-5 h-5 text-[var(--color-text-tertiary)]" />
                   </div>
-                  <div
-                    className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
-                  >
-                    <h4 className="text-[var(--color-text-primary)] font-medium text-[var(--font-size-base)] leading-tight">
-                      Document Deadline - Discovery
-                    </h4>
-                    <div className="mt-2 space-y-1">
-                      <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)]">
-                        Jan 12, 2025 at 5:00 PM
-                      </p>
-                      <p className="text-[var(--color-text-tertiary)] text-[var(--font-size-sm)]">
-                        File electronically
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="px-6 py-4">
+                  <h3 className="text-[var(--color-text-primary)] font-medium mb-1 text-sm">
+                    No upcoming events
+                  </h3>
+                  <p className="text-[var(--color-text-secondary)] text-xs mb-4">
+                    Schedule court dates, deadlines, and meetings
+                  </p>
                   <Button variant="ghost" size="sm" className="w-full" leftIcon={<Plus size={14} />}>
                     Add Event
                   </Button>

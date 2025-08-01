@@ -37,9 +37,9 @@ export default async function SignUpPage({
     <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-black relative flex items-center justify-center p-4 overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-transparent to-pink-600/10 animate-gradient" />
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-transparent to-slate-600/10 animate-gradient" />
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-slate-500/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-[0.02]" />
       </div>
 
@@ -48,7 +48,7 @@ export default async function SignUpPage({
         {[...Array(10)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-purple-400/20 rounded-full animate-float"
+            className="absolute w-1 h-1 bg-blue-400/20 rounded-full animate-float"
             style={{
               left: `${(i + 1) * 10}%`,
               animationDelay: `${i}s`,
@@ -62,12 +62,12 @@ export default async function SignUpPage({
       <div className="w-full max-w-md mx-auto relative z-10">
         <div className="backdrop-blur-2xl bg-white/[0.02] border border-white/[0.05] rounded-3xl shadow-2xl shadow-black/50 p-8 relative overflow-hidden">
           {/* Glass morphism gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 via-transparent to-pink-600/5 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-transparent to-slate-600/5 pointer-events-none" />
 
           {/* Logo and title */}
           <div className="text-center mb-8 relative z-10">
             <Link href="/" className="inline-flex items-center gap-2 group mb-6">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-lg group-hover:shadow-purple-500/25 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg group-hover:shadow-blue-500/25 transition-all duration-300">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -94,23 +94,23 @@ export default async function SignUpPage({
           </div>
 
           {/* Benefits */}
-          <div className="mb-6 p-4 bg-gradient-to-br from-purple-600/10 to-pink-600/10 border border-purple-500/20 rounded-xl">
+          <div className="mb-6 p-4 bg-gradient-to-br from-blue-600/10 to-slate-600/10 border border-blue-500/20 rounded-xl">
             <h3 className="text-sm font-semibold text-white mb-2">Why join CaseOS?</h3>
             <ul className="space-y-1 text-xs text-white/70">
               <li className="flex items-center gap-2">
-                <svg className="w-3 h-3 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-3 h-3 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 AI-powered legal document analysis
               </li>
               <li className="flex items-center gap-2">
-                <svg className="w-3 h-3 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-3 h-3 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 Smart deadline tracking & reminders
               </li>
               <li className="flex items-center gap-2">
-                <svg className="w-3 h-3 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-3 h-3 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 Legal form generation & guidance

@@ -13,6 +13,7 @@
 import { clsx } from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { 
   Home, 
   FileText, 
@@ -47,7 +48,6 @@ const sidebarItems: SidebarItem[] = [
     label: 'My Cases',
     href: '/cases',
     icon: <FileText size={16} />,
-    badge: '3',
     section: 'main',
   },
   {
@@ -86,6 +86,7 @@ interface SidebarProps {
 
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const mainItems = sidebarItems.filter(item => item.section === 'main');
   const secondaryItems = sidebarItems.filter(item => item.section === 'secondary');
@@ -246,14 +247,22 @@ export function Sidebar({ className }: SidebarProps) {
         <div className="mt-3 pt-3 border-t border-[var(--color-border)]">
           <div className="flex items-center gap-2 px-2 py-1.5">
             <div className="h-6 w-6 rounded-full bg-[var(--color-accent)] flex items-center justify-center">
-              <span className="text-xs font-medium text-white">JD</span>
+              <span className="text-xs font-medium text-white">
+                {session?.user?.name
+                  ? session.user.name
+                      .split(' ')
+                      .map(n => n[0])
+                      .join('')
+                      .toUpperCase()
+                  : 'U'}
+              </span>
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[var(--font-size-xs)] font-medium text-[var(--color-text-primary)] truncate">
-                John Doe
+                {session?.user?.name || 'User'}
               </p>
               <p className="text-[var(--font-size-xs)] text-[var(--color-text-tertiary)] truncate">
-                Pro Plan
+                Self-Represented
               </p>
             </div>
           </div>

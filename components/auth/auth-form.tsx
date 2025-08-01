@@ -193,7 +193,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full py-3 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-indigo-500/25 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
+        className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98] relative overflow-hidden group"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-white/0 to-white/0 group-hover:from-white/10 group-hover:to-white/10 transition-all duration-300" />
         {isLoading ? (

@@ -37,9 +37,9 @@ export default async function SignInPage({
     <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-black relative flex items-center justify-center p-4 overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-transparent to-purple-600/10 animate-gradient" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-transparent to-slate-600/10 animate-gradient" />
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-slate-500/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] opacity-[0.02]" />
       </div>
 
@@ -62,12 +62,12 @@ export default async function SignInPage({
       <div className="w-full max-w-md mx-auto relative z-10">
         <div className="backdrop-blur-2xl bg-white/[0.02] border border-white/[0.05] rounded-3xl shadow-2xl shadow-black/50 p-8 relative overflow-hidden">
           {/* Glass morphism gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/5 via-transparent to-purple-600/5 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-transparent to-slate-600/5 pointer-events-none" />
 
           {/* Logo and title */}
           <div className="text-center mb-8 relative z-10">
             <Link href="/" className="inline-flex items-center gap-2 group mb-6">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg group-hover:shadow-indigo-500/25 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center shadow-lg group-hover:shadow-blue-500/25 transition-all duration-300">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
