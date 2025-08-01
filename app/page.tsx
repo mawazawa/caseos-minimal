@@ -119,8 +119,8 @@ export default function Dashboard() {
       <PageContent>
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {stats.map((stat, index) => (
-            <Card key={index} variant="elevated" padding="md">
+          {stats.map((stat) => (
+            <Card key={stat.label} variant="elevated" padding="md">
               <CardContent>
                 <div className="flex items-center justify-between">
                   <div>
@@ -157,7 +157,7 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent className="px-0">
                 <div className="space-y-0">
-                  {recentCases.map((case_, index) => (
+                  {recentCases.map((case_) => (
                     <div 
                       key={case_.id}
                       className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
@@ -206,7 +206,7 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent className="px-0">
                 <div className="space-y-0">
-                  {upcomingEvents.map((event, index) => (
+                  {upcomingEvents.map((event) => (
                     <div 
                       key={event.id}
                       className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
