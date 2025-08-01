@@ -98,6 +98,23 @@ jest.mock('./lib/prisma', () => ({
   },
 }))
 
+// Mock ResizeObserver for cmdk (command palette)
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}))
+
+// Mock IntersectionObserver for better test compatibility
+global.IntersectionObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}))
+
+// Mock scrollIntoView for cmdk
+Element.prototype.scrollIntoView = jest.fn()
+
 // Global test utilities
 global.console = {
   ...console,

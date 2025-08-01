@@ -1,0 +1,125 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-caseos}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-caseos_dev}
+      POSTGRES_DB: ${DATABASE_NAME:-caseos_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER:-caseos}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Development Application
+  app:
+    build:
+      context: .
+      target: dev
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://${DATABASE_USER:-caseos}:${DATABASE_PASSWORD:-caseos_dev}@postgres:5432/${DATABASE_NAME:-caseos_db}
+      - REDIS_URL=redis://redis:6379
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: >
+      sh -c "
+        npx prisma migrate deploy &&
+        npx prisma generate &&
+        npm run dev
+      "
+
+  # Test Runner
+  test:
+    build:
+      context: .
+      target: test
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=test
+      - DATABASE_URL=postgresql://test:test@postgres-test:5432/test_db
+    depends_on:
+      - postgres-test
+    profiles:
+      - test
+
+  # Test Database
+  postgres-test:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test_db
+    tmpfs:
+      - /var/lib/postgresql/data
+    profiles:
+      - test
+
+  # Storybook for Component Development
+  storybook:
+    build:
+      context: .
+      target: dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "6006:6006"
+    command: npm run storybook
+    profiles:
+      - design
+
+  # Chromatic for Visual Testing
+  chromatic:
+    build:
+      context: .
+      target: test
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CHROMATIC_PROJECT_TOKEN=${CHROMATIC_PROJECT_TOKEN}
+    command: npx chromatic --project-token=${CHROMATIC_PROJECT_TOKEN}
+    profiles:
+      - visual-test
+
+volumes:
+  postgres_data:
+  redis_data:

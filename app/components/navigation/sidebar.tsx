@@ -14,6 +14,7 @@ import { clsx } from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useCommandPalette } from '../command-palette-provider';
 import { 
   Home, 
   FileText, 
@@ -87,6 +88,7 @@ interface SidebarProps {
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const { data: session } = useSession();
+  const { open: openCommandPalette } = useCommandPalette();
 
   const mainItems = sidebarItems.filter(item => item.section === 'main');
   const secondaryItems = sidebarItems.filter(item => item.section === 'secondary');
@@ -113,6 +115,7 @@ export function Sidebar({ className }: SidebarProps) {
         
         <div className="flex items-center gap-1">
           <button 
+            onClick={openCommandPalette}
             className={clsx(
               'h-6 w-6 rounded-md flex items-center justify-center',
               'text-[var(--color-text-secondary)]',
@@ -120,7 +123,8 @@ export function Sidebar({ className }: SidebarProps) {
               'hover:text-[var(--color-text-primary)]',
               'transition-colors duration-200'
             )}
-            aria-label="Search"
+            aria-label="Search (⌘K)"
+            title="Search (⌘K)"
           >
             <Search size={14} />
           </button>

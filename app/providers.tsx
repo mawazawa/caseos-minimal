@@ -11,6 +11,7 @@
 'use client';
 
 import { SessionProvider } from 'next-auth/react';
+import { CommandPaletteProvider } from './components/command-palette-provider';
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -19,7 +20,9 @@ interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <SessionProvider>
-      {children}
+      <CommandPaletteProvider>
+        {children}
+      </CommandPaletteProvider>
     </SessionProvider>
   );
 }

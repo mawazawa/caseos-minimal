@@ -28,9 +28,13 @@ CaseOS™ is a revolutionary legal technology platform designed specifically for
 
 ### Prerequisites
 
-- Node.js 18+ 
-- PostgreSQL 14+
-- npm or yarn
+- Docker & Docker Compose (REQUIRED - no exceptions)
+- Git
+- 8GB RAM minimum
+
+### ⚠️ MANDATORY: Docker-First Development
+
+**ALL development MUST use Docker containers to avoid dependency issues.**
 
 ### Installation
 
@@ -40,29 +44,44 @@ git clone https://github.com/caseos/caseos-minimal.git
 cd caseos-minimal
 ```
 
-2. Install dependencies:
+2. Start the Docker development environment:
 ```bash
-npm install
+# This starts PostgreSQL, Redis, and the Next.js app
+docker-compose up -d
+
+# View logs
+docker-compose logs -f app
 ```
 
-3. Set up environment variables:
+3. The application will be available at:
+- Application: [http://localhost:3000](http://localhost:3000)
+- PostgreSQL: localhost:5432
+- Redis: localhost:6379
+
+### Running Tests (MANDATORY before every commit)
 ```bash
-cp .env.example .env.local
-# Edit .env.local with your configuration
+# Run all tests in Docker
+docker-compose run --rm app npm test
+
+# Check coverage (must be >90%)
+docker-compose run --rm app npm run test:coverage
+
+# Run E2E tests
+docker-compose run --rm app npx playwright test
 ```
 
-4. Set up the database:
+### Development Workflow
 ```bash
-npx prisma generate
-npx prisma migrate dev
-```
+# Make changes, then test
+docker-compose run --rm app npm test
 
-5. Run the development server:
-```bash
-npm run dev
-```
+# Commit with tests passing
+git add .
+git commit -m "feat: add feature with tests"
+git push origin main
 
-Open [http://localhost:3000](http://localhost:3000) to see the application.
+# Verify deployment at https://caseos-minimal.vercel.app
+```
 
 ## 🏗️ Architecture
 
@@ -155,10 +174,19 @@ See [SECURITY.md](SECURITY.md) for more details.
 
 ## 📚 Documentation
 
+### Core Documentation
+- [Development Plan](PLAN.md) - **START HERE** - Design excellence roadmap
+- [Design Excellence](DESIGN_EXCELLENCE.md) - Comprehensive design patterns & implementation
+- [Testing Guide](TESTING_GUIDE.md) - **MANDATORY** testing requirements
 - [API Architecture](API_ARCHITECTURE.md) - Detailed API specifications
 - [Implementation Guide](IMPLEMENTATION_GUIDE.md) - Backend setup guide
-- [Development Plan](PLAN.md) - Roadmap and milestones
 - [Claude Integration](CLAUDE.md) - AI assistant guidelines
+
+### Development Requirements
+- **Every feature needs tests** (>90% coverage)
+- **Every commit needs Docker** (consistency)
+- **Every push needs deployment verification** (Vercel)
+- **Every animation needs 60fps** (performance)
 
 ## 🌟 Why CaseOS™?
 
