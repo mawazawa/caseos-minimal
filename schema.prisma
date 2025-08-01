@@ -482,6 +482,8 @@ enum UserType {
   ATTORNEY
   PARALEGAL
   ADMIN
+
+  @@schema("auth")
 }
 
 enum VerificationStatus {

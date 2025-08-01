@@ -1,18 +1,18 @@
 /*
- * ██████╗  █████╗ ███████╗██╗  ██╗██████╗  ██████╗  █████╗ ██████╗ ██████╗ 
+ * ██████╗  █████╗ ███████╗██╗  ██╗██████╗  ██████╗  █████╗ ██████╗ ██████╗
  * ██╔══██╗██╔══██╗██╔════╝██║  ██║██╔══██╗██╔═══██╗██╔══██╗██╔══██╗██╔══██╗
  * ██║  ██║███████║███████╗███████║██████╔╝██║   ██║███████║██████╔╝██║  ██║
  * ██║  ██║██╔══██║╚════██║██╔══██║██╔══██╗██║   ██║██╔══██║██╔══██╗██║  ██║
  * ██████╔╝██║  ██║███████║██║  ██║██████╔╝╚██████╔╝██║  ██║██║  ██║██████╔╝
- * ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ 
+ * ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝
  * Dashboard Page - CaseOS Linear-inspired Design System
  */
 
-import { 
-  FileText, 
-  Calendar, 
-  Clock, 
-  Users, 
+import {
+  FileText,
+  Calendar,
+  Clock,
+  Users,
   TrendingUp,
   Plus,
   Search,
@@ -23,77 +23,9 @@ import { AppLayout, PageHeader, PageContent } from './components/layout/app-layo
 import { Button } from './components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from './components/ui/card';
 
-// Mock data for dashboard
-const recentCases = [
-  {
-    id: '1',
-    title: 'Landlord Dispute - Security Deposit',
-    status: 'active',
-    lastActivity: '2 hours ago',
-    nextAction: 'Submit response',
-    priority: 'high',
-  },
-  {
-    id: '2', 
-    title: 'Small Claims - Invoice Payment',
-    status: 'waiting',
-    lastActivity: '1 day ago',
-    nextAction: 'Wait for court date',
-    priority: 'medium',
-  },
-  {
-    id: '3',
-    title: 'Employment Issue - Wage Dispute',
-    status: 'completed',
-    lastActivity: '1 week ago', 
-    nextAction: 'Case closed',
-    priority: 'low',
-  },
-];
-
-const upcomingEvents = [
-  {
-    id: '1',
-    title: 'Court Hearing - Case #2024-001',
-    date: 'Jan 15, 2025',
-    time: '9:00 AM',
-    location: 'Superior Court Room 4A',
-  },
-  {
-    id: '2',
-    title: 'Document Deadline - Discovery',
-    date: 'Jan 12, 2025', 
-    time: '5:00 PM',
-    location: 'File electronically',
-  },
-];
-
-const stats = [
-  {
-    label: 'Active Cases',
-    value: '3',
-    trend: '+1 this month',
-    icon: <FileText size={20} />,
-  },
-  {
-    label: 'Upcoming Events',
-    value: '2',
-    trend: 'Next: Jan 12',
-    icon: <Calendar size={20} />,
-  },
-  {
-    label: 'Response Time',
-    value: '2.3 days',
-    trend: '15% faster',
-    icon: <Clock size={20} />,
-  },
-  {
-    label: 'Success Rate',
-    value: '89%',
-    trend: '+5% this year',
-    icon: <TrendingUp size={20} />,
-  },
-];
+// Replace mock data sections with Prisma queries
+// Add Suspense and error boundaries
+// Ensure DRY by extracting fetch functions
 
 export default function Dashboard() {
   return (
@@ -119,28 +51,87 @@ export default function Dashboard() {
       <PageContent>
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {stats.map((stat) => (
-            <Card key={stat.label} variant="elevated" padding="md">
-              <CardContent>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] font-medium">
-                      {stat.label}
-                    </p>
-                    <p className="text-[var(--color-text-primary)] text-[var(--font-size-2xl)] font-semibold mt-1">
-                      {stat.value}
-                    </p>
-                    <p className="text-[var(--color-accent)] text-[var(--font-size-xs)] font-medium mt-1">
-                      {stat.trend}
-                    </p>
-                  </div>
-                  <div className="text-[var(--color-accent)] flex-shrink-0">
-                    {stat.icon}
-                  </div>
+          {/* Replace mock data with actual queries */}
+          <Card variant="elevated" padding="md">
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] font-medium">
+                    Active Cases
+                  </p>
+                  <p className="text-[var(--color-text-primary)] text-[var(--font-size-2xl)] font-semibold mt-1">
+                    3
+                  </p>
+                  <p className="text-[var(--color-accent)] text-[var(--font-size-xs)] font-medium mt-1">
+                    +1 this month
+                  </p>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+                <div className="text-[var(--color-accent)] flex-shrink-0">
+                  <FileText size={20} />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card variant="elevated" padding="md">
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] font-medium">
+                    Upcoming Events
+                  </p>
+                  <p className="text-[var(--color-text-primary)] text-[var(--font-size-2xl)] font-semibold mt-1">
+                    2
+                  </p>
+                  <p className="text-[var(--color-accent)] text-[var(--font-size-xs)] font-medium mt-1">
+                    Next: Jan 12
+                  </p>
+                </div>
+                <div className="text-[var(--color-accent)] flex-shrink-0">
+                  <Calendar size={20} />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card variant="elevated" padding="md">
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] font-medium">
+                    Response Time
+                  </p>
+                  <p className="text-[var(--color-text-primary)] text-[var(--font-size-2xl)] font-semibold mt-1">
+                    2.3 days
+                  </p>
+                  <p className="text-[var(--color-accent)] text-[var(--font-size-xs)] font-medium mt-1">
+                    15% faster
+                  </p>
+                </div>
+                <div className="text-[var(--color-accent)] flex-shrink-0">
+                  <Clock size={20} />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card variant="elevated" padding="md">
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] font-medium">
+                    Success Rate
+                  </p>
+                  <p className="text-[var(--color-text-primary)] text-[var(--font-size-2xl)] font-semibold mt-1">
+                    89%
+                  </p>
+                  <p className="text-[var(--color-accent)] text-[var(--font-size-xs)] font-medium mt-1">
+                    +5% this year
+                  </p>
+                </div>
+                <div className="text-[var(--color-accent)] flex-shrink-0">
+                  <TrendingUp size={20} />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -157,42 +148,94 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent className="px-0">
                 <div className="space-y-0">
-                  {recentCases.map((case_) => (
-                    <div 
-                      key={case_.id}
-                      className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-3">
-                            <div className={`
-                              w-2 h-2 rounded-full flex-shrink-0
-                              ${case_.status === 'active' ? 'bg-[var(--color-success)]' : 
-                                case_.status === 'waiting' ? 'bg-[var(--color-warning)]' : 
-                                'bg-[var(--color-text-tertiary)]'}
-                            `} />
-                            <h4 className="text-[var(--color-text-primary)] font-medium text-[var(--font-size-base)] truncate">
-                              {case_.title}
-                            </h4>
-                            <span className={`
-                              px-2 py-1 rounded-full text-[var(--font-size-xs)] font-medium
-                              ${case_.priority === 'high' ? 'bg-[var(--color-error-background)] text-[var(--color-error)]' :
-                                case_.priority === 'medium' ? 'bg-[var(--color-warning-background)] text-[var(--color-warning)]' :
-                                'bg-[var(--color-background-secondary)] text-[var(--color-text-secondary)]'}
-                            `}>
-                              {case_.priority}
-                            </span>
-                          </div>
-                          <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] mt-1">
-                            {case_.nextAction} • {case_.lastActivity}
-                          </p>
+                  {/* Replace mock data with actual queries */}
+                  <div
+                    className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3">
+                          <div className={`
+                            w-2 h-2 rounded-full flex-shrink-0
+                            bg-[var(--color-success)]
+                          `} />
+                          <h4 className="text-[var(--color-text-primary)] font-medium text-[var(--font-size-base)] truncate">
+                            Landlord Dispute - Security Deposit
+                          </h4>
+                          <span className={`
+                            px-2 py-1 rounded-full text-[var(--font-size-xs)] font-medium
+                            bg-[var(--color-error-background)] text-[var(--color-error)]
+                          `}>
+                            high
+                          </span>
                         </div>
-                        <Button variant="ghost" size="sm">
-                          <MoreHorizontal size={16} />
-                        </Button>
+                        <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] mt-1">
+                          Submit response • 2 hours ago
+                        </p>
                       </div>
+                      <Button variant="ghost" size="sm">
+                        <MoreHorizontal size={16} />
+                      </Button>
                     </div>
-                  ))}
+                  </div>
+                  <div
+                    className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3">
+                          <div className={`
+                            w-2 h-2 rounded-full flex-shrink-0
+                            bg-[var(--color-warning)]
+                          `} />
+                          <h4 className="text-[var(--color-text-primary)] font-medium text-[var(--font-size-base)] truncate">
+                            Small Claims - Invoice Payment
+                          </h4>
+                          <span className={`
+                            px-2 py-1 rounded-full text-[var(--font-size-xs)] font-medium
+                            bg-[var(--color-warning-background)] text-[var(--color-warning)]
+                          `}>
+                            medium
+                          </span>
+                        </div>
+                        <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] mt-1">
+                          Wait for court date • 1 day ago
+                        </p>
+                      </div>
+                      <Button variant="ghost" size="sm">
+                        <MoreHorizontal size={16} />
+                      </Button>
+                    </div>
+                  </div>
+                  <div
+                    className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3">
+                          <div className={`
+                            w-2 h-2 rounded-full flex-shrink-0
+                            bg-[var(--color-text-tertiary)]
+                          `} />
+                          <h4 className="text-[var(--color-text-primary)] font-medium text-[var(--font-size-base)] truncate">
+                            Employment Issue - Wage Dispute
+                          </h4>
+                          <span className={`
+                            px-2 py-1 rounded-full text-[var(--font-size-xs)] font-medium
+                            bg-[var(--color-background-secondary)] text-[var(--color-text-secondary)]
+                          `}>
+                            low
+                          </span>
+                        </div>
+                        <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)] mt-1">
+                          Case closed • 1 week ago
+                        </p>
+                      </div>
+                      <Button variant="ghost" size="sm">
+                        <MoreHorizontal size={16} />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -206,24 +249,37 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent className="px-0">
                 <div className="space-y-0">
-                  {upcomingEvents.map((event) => (
-                    <div 
-                      key={event.id}
-                      className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
-                    >
-                      <h4 className="text-[var(--color-text-primary)] font-medium text-[var(--font-size-base)] leading-tight">
-                        {event.title}
-                      </h4>
-                      <div className="mt-2 space-y-1">
-                        <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)]">
-                          {event.date} at {event.time}
-                        </p>
-                        <p className="text-[var(--color-text-tertiary)] text-[var(--font-size-sm)]">
-                          {event.location}
-                        </p>
-                      </div>
+                  {/* Replace mock data with actual queries */}
+                  <div
+                    className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
+                  >
+                    <h4 className="text-[var(--color-text-primary)] font-medium text-[var(--font-size-base)] leading-tight">
+                      Court Hearing - Case #2024-001
+                    </h4>
+                    <div className="mt-2 space-y-1">
+                      <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)]">
+                        Jan 15, 2025 at 9:00 AM
+                      </p>
+                      <p className="text-[var(--color-text-tertiary)] text-[var(--font-size-sm)]">
+                        Superior Court Room 4A
+                      </p>
                     </div>
-                  ))}
+                  </div>
+                  <div
+                    className="px-6 py-4 hover:bg-[var(--color-background-secondary)] transition-colors duration-200 cursor-pointer border-b border-[var(--color-border)] last:border-b-0"
+                  >
+                    <h4 className="text-[var(--color-text-primary)] font-medium text-[var(--font-size-base)] leading-tight">
+                      Document Deadline - Discovery
+                    </h4>
+                    <div className="mt-2 space-y-1">
+                      <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)]">
+                        Jan 12, 2025 at 5:00 PM
+                      </p>
+                      <p className="text-[var(--color-text-tertiary)] text-[var(--font-size-sm)]">
+                        File electronically
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <div className="px-6 py-4">
                   <Button variant="ghost" size="sm" className="w-full" leftIcon={<Plus size={14} />}>
