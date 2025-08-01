@@ -16,7 +16,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["auth", "legal", "ai", "audit"]
 }
 
 // ============================================================================
@@ -30,6 +29,7 @@ model User {
   emailVerified DateTime?
   name          String?
   image         String?
+  password      String?  // For credentials auth
 
   // Legal-specific fields
   barNumber     String?  @unique  // For licensed attorneys who join
@@ -64,7 +64,6 @@ model User {
   updatedAt DateTime @updatedAt
   deletedAt DateTime? // Soft delete for legal compliance
 
-  @@schema("auth")
 }
 
 model Account {
@@ -86,7 +85,6 @@ model Account {
   updatedAt DateTime @updatedAt
 
   @@id([provider, providerAccountId])
-  @@schema("auth")
 }
 
 model Session {
@@ -104,7 +102,6 @@ model Session {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@schema("auth")
 }
 
 model VerificationToken {
@@ -114,7 +111,6 @@ model VerificationToken {
   type       TokenType @default(EMAIL_VERIFICATION)
 
   @@id([identifier, token])
-  @@schema("auth")
 }
 
 // Multi-tenant organization support
@@ -143,7 +139,6 @@ model Organization {
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
 
-  @@schema("auth")
 }
 
 model OrganizationMember {
@@ -160,7 +155,6 @@ model OrganizationMember {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, organizationId])
-  @@schema("auth")
 }
 
 // ============================================================================
@@ -224,7 +218,6 @@ model LegalCase {
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
 
-  @@schema("legal")
 }
 
 model Document {
@@ -280,7 +273,6 @@ model Document {
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
 
-  @@schema("legal")
 }
 
 model Deadline {
@@ -308,7 +300,6 @@ model Deadline {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@schema("legal")
 }
 
 model CaseEvent {
@@ -337,7 +328,6 @@ model CaseEvent {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@schema("legal")
 }
 
 // ============================================================================
@@ -371,7 +361,6 @@ model AiChat {
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
 
-  @@schema("ai")
 }
 
 model AiMessage {
@@ -397,7 +386,6 @@ model AiMessage {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@schema("ai")
 }
 
 // ============================================================================
@@ -434,7 +422,6 @@ model CaseTemplate {
   updatedAt DateTime @updatedAt
   deletedAt DateTime?
 
-  @@schema("legal")
 }
 
 // ============================================================================
@@ -470,7 +457,6 @@ model AuditLog {
 
   createdAt DateTime @default(now())
 
-  @@schema("audit")
 }
 
 // ============================================================================
@@ -483,7 +469,6 @@ enum UserType {
   PARALEGAL
   ADMIN
 
-  @@schema("auth")
 }
 
 enum VerificationStatus {
@@ -493,7 +478,6 @@ enum VerificationStatus {
   SUSPENDED
 
 
-  @@schema("legal")
 }
 
 enum TokenType {
@@ -503,7 +487,6 @@ enum TokenType {
   MAGIC_LINK
 
 
-  @@schema("legal")
 }
 
 enum OrganizationType {
@@ -514,7 +497,6 @@ enum OrganizationType {
   SOLO_PRACTICE
 
 
-  @@schema("legal")
 }
 
 enum OrganizationRole {
@@ -524,7 +506,6 @@ enum OrganizationRole {
   VIEWER
 
 
-  @@schema("legal")
 }
 
 enum SubscriptionTier {
@@ -534,7 +515,6 @@ enum SubscriptionTier {
   ENTERPRISE
 
 
-  @@schema("legal")
 }
 
 enum SubscriptionStatus {
@@ -544,7 +524,6 @@ enum SubscriptionStatus {
   PAST_DUE
 
 
-  @@schema("legal")
 }
 
 enum BillingCycle {
@@ -553,7 +532,6 @@ enum BillingCycle {
   YEARLY
 
 
-  @@schema("legal")
 }
 
 enum CaseType {
@@ -572,7 +550,6 @@ enum CaseType {
   OTHER
 
 
-  @@schema("legal")
 }
 
 enum CourtType {
@@ -589,7 +566,6 @@ enum CourtType {
   ADMINISTRATIVE
 
 
-  @@schema("legal")
 }
 
 enum CaseStatus {
@@ -606,7 +582,6 @@ enum CaseStatus {
   CLOSED
 
 
-  @@schema("legal")
 }
 
 enum CasePriority {
@@ -616,7 +591,6 @@ enum CasePriority {
   URGENT
 
 
-  @@schema("legal")
 }
 
 enum DocumentType {
@@ -634,7 +608,6 @@ enum DocumentType {
   OTHER
 
 
-  @@schema("legal")
 }
 
 enum DocumentCategory {
@@ -646,7 +619,6 @@ enum DocumentCategory {
   TEMPLATE
 
 
-  @@schema("legal")
 }
 
 enum StorageProvider {
@@ -655,7 +627,6 @@ enum StorageProvider {
   LOCAL
 
 
-  @@schema("legal")
 }
 
 enum ProcessingStatus {
@@ -666,7 +637,6 @@ enum ProcessingStatus {
   QUARANTINED
 
 
-  @@schema("legal")
 }
 
 enum DeadlineType {
@@ -680,7 +650,6 @@ enum DeadlineType {
   OTHER
 
 
-  @@schema("legal")
 }
 
 enum DeadlineStatus {
@@ -690,7 +659,6 @@ enum DeadlineStatus {
   CANCELED
 
 
-  @@schema("legal")
 }
 
 enum Priority {
@@ -700,7 +668,6 @@ enum Priority {
   URGENT
 
 
-  @@schema("legal")
 }
 
 enum EventType {
@@ -715,7 +682,6 @@ enum EventType {
   OTHER
 
 
-  @@schema("legal")
 }
 
 enum ChatType {
@@ -727,7 +693,6 @@ enum ChatType {
   FORM_ASSISTANCE
 
 
-  @@schema("legal")
 }
 
 enum MessageRole {
@@ -736,7 +701,6 @@ enum MessageRole {
   SYSTEM
 
 
-  @@schema("legal")
 }
 
 enum MessageType {
@@ -747,7 +711,6 @@ enum MessageType {
   SYSTEM
 
 
-  @@schema("legal")
 }
 
 enum TemplateType {
@@ -758,7 +721,6 @@ enum TemplateType {
   WORKFLOW
 
 
-  @@schema("legal")
 }
 
 enum AuditSeverity {
@@ -768,5 +730,4 @@ enum AuditSeverity {
   CRITICAL
 
 
-  @@schema("legal")
 }
