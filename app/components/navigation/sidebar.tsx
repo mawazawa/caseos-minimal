@@ -1,5 +1,5 @@
 /*
- * ███████╗██╗██████╗ ███████╗██████╗  █████╗ ██████╗ 
+ * ███████╗██╗██████╗ ███████╗██████╗  █████╗ ██████╗
  * ██╔════╝██║██╔══██╗██╔════╝██╔══██╗██╔══██╗██╔══██╗
  * ███████╗██║██║  ██║█████╗  ██████╔╝███████║██████╔╝
  * ╚════██║██║██║  ██║██╔══╝  ██╔══██╗██╔══██║██╔══██╗
@@ -14,13 +14,15 @@ import { clsx } from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useCommandPalette } from '../command-palette-provider';
-import { 
-  Home, 
-  FileText, 
-  Calendar, 
-  Users, 
-  Settings, 
+import { ThemeToggle } from '../theme';
+import {
+  Home,
+  FileText,
+  Calendar,
+  Users,
+  Settings,
   Search,
   Plus,
   HelpCircle,
@@ -87,14 +89,27 @@ interface SidebarProps {
 
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const { data: session } = useSession();
   const { open: openCommandPalette } = useCommandPalette();
 
   const mainItems = sidebarItems.filter(item => item.section === 'main');
   const secondaryItems = sidebarItems.filter(item => item.section === 'secondary');
 
+  // Action handlers
+  const handleNewCase = () => {
+    console.log('🆕 Creating new case...');
+    router.push('/cases/new');
+  };
+
+  const handleNotifications = () => {
+    console.log('🔔 Opening notifications...');
+    // TODO: Implement notifications panel or navigate to notifications page
+    router.push('/notifications');
+  };
+
   return (
-    <aside 
+    <aside
       className={clsx(
         'fixed left-0 top-0 z-30 h-screen w-[var(--sidebar-width)]',
         'bg-[var(--color-sidebar)] border-r border-[var(--color-border)]',
@@ -112,9 +127,9 @@ export function Sidebar({ className }: SidebarProps) {
             CaseOS
           </span>
         </div>
-        
+
         <div className="flex items-center gap-1">
-          <button 
+          <button
             onClick={openCommandPalette}
             className={clsx(
               'h-6 w-6 rounded-md flex items-center justify-center',
@@ -128,15 +143,19 @@ export function Sidebar({ className }: SidebarProps) {
           >
             <Search size={14} />
           </button>
-          <button 
+          <ThemeToggle size="md" variant="compact" />
+                    <button 
+            onClick={handleNotifications}
             className={clsx(
               'h-6 w-6 rounded-md flex items-center justify-center',
               'text-[var(--color-text-secondary)]',
               'hover:bg-[var(--color-background-secondary)]',
               'hover:text-[var(--color-text-primary)]',
-              'transition-colors duration-200'
+              'transition-colors duration-200',
+              'focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-offset-2'
             )}
             aria-label="Notifications"
+            title="Notifications"
           >
             <Bell size={14} />
           </button>
@@ -145,7 +164,8 @@ export function Sidebar({ className }: SidebarProps) {
 
       {/* Quick Actions */}
       <div className="p-3 border-b border-[var(--color-border)]">
-        <button 
+                <button 
+          onClick={handleNewCase}
           className={clsx(
             'w-full h-8 px-3 rounded-md',
             'bg-[var(--color-accent)] text-[var(--color-accent-text)]',
@@ -153,8 +173,10 @@ export function Sidebar({ className }: SidebarProps) {
             'flex items-center justify-center gap-2',
             'text-[var(--font-size-sm)] font-medium',
             'transition-colors duration-200',
-            'shadow-sm'
+            'shadow-sm',
+            'focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-offset-2'
           )}
+          aria-label="Create new case"
         >
           <Plus size={14} />
           New Case
@@ -165,7 +187,7 @@ export function Sidebar({ className }: SidebarProps) {
       <nav className="flex-1 px-2 py-2 space-y-1">
         {mainItems.map((item) => {
           const isActive = pathname === item.href;
-          
+
           return (
             <Link
               key={item.id}
@@ -202,7 +224,7 @@ export function Sidebar({ className }: SidebarProps) {
                   {item.badge}
                 </span>
               )}
-              
+
               {/* Active indicator */}
               {isActive && (
                 <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 bg-[var(--color-accent)] rounded-r-full" />
@@ -217,7 +239,7 @@ export function Sidebar({ className }: SidebarProps) {
         <div className="space-y-1">
           {secondaryItems.map((item) => {
             const isActive = pathname === item.href;
-            
+
             return (
               <Link
                 key={item.id}

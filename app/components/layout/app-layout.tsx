@@ -1,10 +1,10 @@
 /*
  * ██╗      █████╗ ██╗   ██╗ ██████╗ ██╗   ██╗████████╗
  * ██║     ██╔══██╗╚██╗ ██╔╝██╔═══██╗██║   ██║╚══██╔══╝
- * ██║     ███████║ ╚████╔╝ ██║   ██║██║   ██║   ██║   
- * ██║     ██╔══██║  ╚██╔╝  ██║   ██║██║   ██║   ██║   
- * ███████╗██║  ██║   ██║   ╚██████╔╝╚██████╔╝   ██║   
- * ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝    ╚═╝   
+ * ██║     ███████║ ╚████╔╝ ██║   ██║██║   ██║   ██║
+ * ██║     ██╔══██║  ╚██╔╝  ██║   ██║██║   ██║   ██║
+ * ███████╗██║  ██║   ██║   ╚██████╔╝╚██████╔╝   ██║
+ * ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
  * Application Layout - Linear-inspired Design System
  */
 
@@ -24,9 +24,9 @@ export function AppLayout({ children, className }: AppLayoutProps) {
     <div className="min-h-screen bg-[var(--color-background)] flex">
       {/* Sidebar */}
       <Sidebar />
-      
+
       {/* Main Content */}
-      <div 
+      <div
         className={clsx(
           'flex-1 flex flex-col',
           'ml-[var(--sidebar-width)]', // Offset for fixed sidebar
@@ -55,15 +55,15 @@ interface PageHeaderProps {
   className?: string;
 }
 
-export function PageHeader({ 
-  title, 
-  description, 
-  actions, 
+export function PageHeader({
+  title,
+  description,
+  actions,
   breadcrumbs,
-  className 
+  className
 }: PageHeaderProps) {
   return (
-    <div 
+    <div
       className={clsx(
         'bg-[var(--color-background)] border-b border-[var(--color-border)]',
         'px-6 py-4',
@@ -80,7 +80,7 @@ export function PageHeader({
                   <span className="mx-2 text-[var(--color-text-tertiary)]">/</span>
                 )}
                 {crumb.href ? (
-                  <a 
+                  <a
                     href={crumb.href}
                     className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors duration-200"
                   >
@@ -109,7 +109,7 @@ export function PageHeader({
             </p>
           )}
         </div>
-        
+
         {actions && (
           <div className="ml-4 flex items-center gap-3">
             {actions}
@@ -127,8 +127,8 @@ interface PageContentProps {
   padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
-export function PageContent({ 
-  children, 
+export function PageContent({
+  children,
   className,
   maxWidth = 'full',
   padding = 'md'
@@ -149,7 +149,7 @@ export function PageContent({
   };
 
   return (
-    <div 
+    <div
       className={clsx(
         'w-full mx-auto',
         maxWidths[maxWidth],

@@ -1,6 +1,6 @@
 /*
  * Motion Components Library - Linear-inspired animations and interactions
- * 
+ *
  * Export all motion components for easy importing
  * Provides the foundation for premium user experiences
  */
@@ -9,16 +9,16 @@
 export { PageTransition, pageVariants, reducedMotionVariants } from './page-transition';
 
 // Button interactions and micro-animations
-export { 
-  InteractiveButton, 
-  buttonVariants, 
-  rippleVariants 
+export {
+  InteractiveButton,
+  buttonVariants,
+  rippleVariants
 } from './button-interactions';
 
 // Command palette for global navigation
-export { 
+export {
   CommandPalette,
-  type CommandItem 
+  type CommandItem
 } from './command-palette';
 
 // Skeleton loading states

@@ -6,7 +6,7 @@
  * ██║     ██║  ██║╚██████╔╝███████╗       ██║   ██║  ██║██║  ██║██║ ╚████║███████║██║   ██║   ██║╚██████╔╝██║ ╚████║
  * ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝       ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
  * Page Transition Component - Linear-inspired smooth route transitions
- * 
+ *
  * Following DESIGN_EXCELLENCE.md patterns for premium transitions
  * Respects reduced motion preferences for accessibility
  * GPU-accelerated transforms for 60fps performance
@@ -19,15 +19,15 @@ import { useEffect, useState } from 'react';
 
 // Animation timing optimized for Linear-like speed perception
 const pageVariants: Variants = {
-  initial: { 
-    opacity: 0, 
+  initial: {
+    opacity: 0,
     y: 20,
     scale: 0.96,
     // Use GPU-accelerated properties only for performance
     filter: 'blur(4px)'
   },
-  in: { 
-    opacity: 1, 
+  in: {
+    opacity: 1,
     y: 0,
     scale: 1,
     filter: 'blur(0px)',
@@ -38,8 +38,8 @@ const pageVariants: Variants = {
       scale: { duration: 0.3 }
     }
   },
-  out: { 
-    opacity: 0, 
+  out: {
+    opacity: 0,
     y: -20,
     scale: 1.04,
     filter: 'blur(4px)',
@@ -54,11 +54,11 @@ const pageVariants: Variants = {
 // Reduced motion variants for accessibility compliance
 const reducedMotionVariants: Variants = {
   initial: { opacity: 0 },
-  in: { 
+  in: {
     opacity: 1,
     transition: { duration: 0.2 }
   },
-  out: { 
+  out: {
     opacity: 0,
     transition: { duration: 0.1 }
   }
@@ -76,13 +76,13 @@ interface PageTransitionProps {
 
 /**
  * PageTransition Component
- * 
+ *
  * Provides smooth page-to-page transitions with:
  * - Linear-inspired animation timing
  * - Accessibility compliance (reduced motion support)
  * - GPU-accelerated performance
  * - Clean unmount/mount animations
- * 
+ *
  * @example
  * ```tsx
  * <PageTransition pageKey={pathname}>
@@ -90,8 +90,8 @@ interface PageTransitionProps {
  * </PageTransition>
  * ```
  */
-export function PageTransition({ 
-  children, 
+export function PageTransition({
+  children,
   className = '',
   pageKey = 'default'
 }: PageTransitionProps) {

@@ -30,7 +30,7 @@ jest.mock('framer-motion', () => ({
 // Mock cmdk
 jest.mock('cmdk', () => ({
   Command: jest.fn(({ children }) => <div data-testid="command">{children}</div>),
-  CommandDialog: jest.fn(({ children, open }) => 
+  CommandDialog: jest.fn(({ children, open }) =>
     open ? <div data-testid="command-dialog">{children}</div> : null
   ),
   CommandEmpty: jest.fn(({ children }) => <div data-testid="command-empty">{children}</div>),
@@ -93,7 +93,7 @@ describe('CommandPalette', () => {
 
     // Open first
     fireEvent.keyDown(document, { key: 'k', metaKey: true });
-    
+
     await waitFor(() => {
       expect(screen.getByTestId('command-dialog')).toBeInTheDocument();
     });
@@ -205,7 +205,7 @@ describe('CommandPalette', () => {
 
   it('calls onCommandExecute callback when provided', async () => {
     const mockCallback = jest.fn();
-    
+
     render(<CommandPalette onCommandExecute={mockCallback} />);
 
     fireEvent.keyDown(document, { key: 'k', metaKey: true });
@@ -246,15 +246,15 @@ describe('CommandPalette', () => {
   it('prevents default behavior for Cmd+K', () => {
     render(<CommandPalette />);
 
-    const event = new KeyboardEvent('keydown', { 
-      key: 'k', 
+    const event = new KeyboardEvent('keydown', {
+      key: 'k',
       metaKey: true,
       bubbles: true,
-      cancelable: true 
+      cancelable: true
     });
-    
+
     const preventDefaultSpy = jest.spyOn(event, 'preventDefault');
-    
+
     document.dispatchEvent(event);
 
     expect(preventDefaultSpy).toHaveBeenCalled();
@@ -310,10 +310,10 @@ describe('CommandPalette', () => {
     });
 
     // Click overlay (should be handled by backdrop)
-    const motionDiv = screen.getAllByTestId('motion-div').find(div => 
+    const motionDiv = screen.getAllByTestId('motion-div').find(div =>
       div.className?.includes('fixed inset-0')
     );
-    
+
     if (motionDiv) {
       fireEvent.click(motionDiv);
     }

@@ -19,7 +19,6 @@ import {
   SkeletonListItem,
   SkeletonAvatar,
   SkeletonButton,
-  SkeletonPage,
   SkeletonForm,
 } from './skeleton';
 import { Button } from './button';

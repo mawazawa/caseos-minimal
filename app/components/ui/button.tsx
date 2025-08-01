@@ -35,7 +35,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 // Enhanced button animation variants for Linear-inspired feel
 const buttonVariants: Variants = {
-  idle: { 
+  idle: {
     scale: 1,
     y: 0,
     transition: {
@@ -43,7 +43,7 @@ const buttonVariants: Variants = {
       ease: [0.4, 0, 0.2, 1]
     }
   },
-  hover: { 
+  hover: {
     scale: 1.02,
     y: -1,
     transition: {
@@ -51,7 +51,7 @@ const buttonVariants: Variants = {
       ease: [0.4, 0, 0.2, 1]
     }
   },
-  tap: { 
+  tap: {
     scale: 0.96,
     y: 0,
     transition: {
@@ -79,12 +79,12 @@ const reducedMotionVariants: Variants = {
 
 // Ripple effect variants
 const rippleVariants: Variants = {
-  initial: { 
-    scale: 0, 
-    opacity: 0.6 
+  initial: {
+    scale: 0,
+    opacity: 0.6
   },
-  animate: { 
-    scale: 4, 
+  animate: {
+    scale: 4,
     opacity: 0,
     transition: {
       duration: 0.6,
@@ -94,11 +94,11 @@ const rippleVariants: Variants = {
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ 
-    variant = 'primary', 
-    size = 'md', 
-    children, 
-    className, 
+  ({
+    variant = 'primary',
+    size = 'md',
+    children,
+    className,
     isLoading = false,
     leftIcon,
     rightIcon,
@@ -106,7 +106,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     enableMotion = true,
     enableRipple = true,
     onClick,
-    ...props 
+    ...props
   }, ref) => {
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([]);
@@ -114,7 +114,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // Check for reduced motion preference
     useEffect(() => {
       if (!enableMotion) return;
-      
+
       const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
       setPrefersReducedMotion(mediaQuery.matches);
 
@@ -227,7 +227,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ]);
 
     // Choose appropriate variants based on user preference and enableMotion
-    const animationVariants = enableMotion 
+    const animationVariants = enableMotion
       ? (prefersReducedMotion ? reducedMotionVariants : buttonVariants)
       : undefined;
 
@@ -251,7 +251,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           animate={disabled || isLoading ? "disabled" : "idle"}
           // Filter out motion-specific props from ...props
           {...Object.fromEntries(
-            Object.entries(props).filter(([key]) => 
+            Object.entries(props).filter(([key]) =>
               !['whileHover', 'whileTap', 'animate', 'initial', 'variants', 'transition', 'onAnimationComplete'].includes(key)
             )
           )}
@@ -261,10 +261,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
             </div>
           )}
-          
+
           {/* Content */}
           <span className={clsx(
-            'flex items-center gap-2 relative z-10', 
+            'flex items-center gap-2 relative z-10',
             isLoading && 'opacity-0'
           )}>
             {leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
@@ -310,10 +310,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
           </div>
         )}
-        
+
         {/* Content */}
         <span className={clsx(
-          'flex items-center gap-2 relative z-10', 
+          'flex items-center gap-2 relative z-10',
           isLoading && 'opacity-0'
         )}>
           {leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}

@@ -6,7 +6,7 @@
  * ███████║██║  ██╗███████╗███████╗███████╗   ██║   ╚██████╔╝██║ ╚████║
  * ╚══════╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═══╝
  * Skeleton Loading Components - Linear-inspired premium loading states
- * 
+ *
  * Creates shimmer effects and loading patterns that match the design system
  * Provides smooth transitions from loading to loaded content
  * GPU-accelerated animations for 60fps performance
@@ -33,8 +33,8 @@ const shimmerVariants = {
 // Fade in variants for content appearance (reserved for future use)
 // const fadeInVariants = {
 //   hidden: { opacity: 0, y: 10 },
-//   visible: { 
-//     opacity: 1, 
+//   visible: {
+//     opacity: 1,
 //     y: 0,
 //     transition: {
 //       duration: 0.3,
@@ -80,24 +80,24 @@ interface SkeletonProps extends HTMLMotionProps<'div'> {
 
 /**
  * Base Skeleton Component
- * 
+ *
  * Provides a loading placeholder with shimmer effect
  * Respects reduced motion preferences
- * 
+ *
  * @example
  * ```tsx
  * <Skeleton width="100%" height={20} variant="text" />
  * <Skeleton width={40} height={40} variant="circular" />
  * ```
  */
-export function Skeleton({ 
+export function Skeleton({
   width = '100%',
   height = 20,
   variant = 'rectangular',
   className = '',
   shimmer = true,
   style = {},
-  ...props 
+  ...props
 }: SkeletonProps) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
@@ -163,7 +163,7 @@ export function Skeleton({
 
 /**
  * Text Skeleton Component
- * 
+ *
  * Specialized skeleton for text content with multiple lines
  */
 interface TextSkeletonProps {
@@ -173,7 +173,7 @@ interface TextSkeletonProps {
   lastLineWidth?: string;
 }
 
-export function TextSkeleton({ 
+export function TextSkeleton({
   lines = 3,
   className = '',
   lineHeight = 20,
@@ -195,7 +195,7 @@ export function TextSkeleton({
 
 /**
  * Avatar Skeleton Component
- * 
+ *
  * Specialized skeleton for user avatars
  */
 interface AvatarSkeletonProps {
@@ -223,7 +223,7 @@ export function AvatarSkeleton({ size = 'md', className = '' }: AvatarSkeletonPr
 
 /**
  * Card Skeleton Component
- * 
+ *
  * Specialized skeleton for card components
  */
 interface CardSkeletonProps {
@@ -233,7 +233,7 @@ interface CardSkeletonProps {
   className?: string;
 }
 
-export function CardSkeleton({ 
+export function CardSkeleton({
   showAvatar = false,
   showImage = false,
   lines = 3,
@@ -271,7 +271,7 @@ export function CardSkeleton({
 
 /**
  * Table Skeleton Component
- * 
+ *
  * Specialized skeleton for table/list data
  */
 interface TableSkeletonProps {
@@ -281,7 +281,7 @@ interface TableSkeletonProps {
   className?: string;
 }
 
-export function TableSkeleton({ 
+export function TableSkeleton({
   rows = 5,
   columns = 4,
   showHeader = true,
@@ -301,13 +301,13 @@ export function TableSkeleton({
       {/* Table Rows */}
       <div className="space-y-2">
         {Array.from({ length: rows }).map((_, rowIndex) => (
-          <div 
+          <div
             key={`row-${rowIndex}`}
             className="grid gap-3"
             style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
           >
             {Array.from({ length: columns }).map((_, colIndex) => (
-              <Skeleton 
+              <Skeleton
                 key={`cell-${rowIndex}-${colIndex}`}
                 height={20}
                 width={colIndex === 0 ? '90%' : '70%'}
@@ -322,7 +322,7 @@ export function TableSkeleton({
 
 /**
  * Button Skeleton Component
- * 
+ *
  * Specialized skeleton for button elements
  */
 interface ButtonSkeletonProps {
@@ -332,7 +332,7 @@ interface ButtonSkeletonProps {
   className?: string;
 }
 
-export function ButtonSkeleton({ 
+export function ButtonSkeleton({
   size = 'md',
   variant = 'primary',
   width,
@@ -361,7 +361,7 @@ export function ButtonSkeleton({
 
 /**
  * Page Skeleton Component
- * 
+ *
  * Full page loading skeleton with header, content, and sidebar
  */
 interface PageSkeletonProps {
@@ -370,7 +370,7 @@ interface PageSkeletonProps {
   className?: string;
 }
 
-export function PageSkeleton({ 
+export function PageSkeleton({
   showSidebar = true,
   showHeader = true,
   className = ''

@@ -6,7 +6,7 @@
  * ██████╔╝╚██████╔╝   ██║      ██║   ╚██████╔╝██║ ╚████║    ██║██║ ╚████║   ██║   ███████╗██║  ██║██║  ██║╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║███████║
  * ╚═════╝  ╚═════╝    ╚═╝      ╚═╝    ╚═════╝ ╚═╝  ╚═══╝    ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
  * Button Interactions - Linear-inspired haptic-like feedback and micro-animations
- * 
+ *
  * Premium button interactions that provide immediate visual feedback
  * Optimized for performance with GPU-accelerated transforms
  * Accessible with reduced motion support
@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react';
 
 // Haptic-like button feedback - inspired by Linear's immediate response
 const buttonVariants: Variants = {
-  idle: { 
+  idle: {
     scale: 1,
     y: 0,
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)',
@@ -28,7 +28,7 @@ const buttonVariants: Variants = {
       ease: [0.4, 0, 0.2, 1]
     }
   },
-  hover: { 
+  hover: {
     scale: 1.02,
     y: -1,
     boxShadow: '0 4px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12)',
@@ -37,7 +37,7 @@ const buttonVariants: Variants = {
       ease: [0.4, 0, 0.2, 1]
     }
   },
-  tap: { 
+  tap: {
     scale: 0.96,
     y: 0,
     boxShadow: '0 1px 2px rgba(0, 0, 0, 0.2)',
@@ -67,12 +67,12 @@ const reducedMotionVariants: Variants = {
 
 // Ripple effect for touch feedback
 const rippleVariants: Variants = {
-  initial: { 
-    scale: 0, 
-    opacity: 0.6 
+  initial: {
+    scale: 0,
+    opacity: 0.6
   },
-  animate: { 
-    scale: 4, 
+  animate: {
+    scale: 4,
     opacity: 0,
     transition: {
       duration: 0.6,
@@ -98,17 +98,17 @@ interface InteractiveButtonProps extends Omit<HTMLMotionProps<'button'>, 'varian
 
 /**
  * InteractiveButton Component
- * 
+ *
  * Provides Linear-inspired button interactions with:
  * - Haptic-like feedback on hover/tap
  * - Ripple effect for visual feedback
  * - Accessibility compliance (reduced motion)
  * - GPU-accelerated animations
- * 
+ *
  * @example
  * ```tsx
- * <InteractiveButton 
- *   variant="primary" 
+ * <InteractiveButton
+ *   variant="primary"
  *   size="md"
  *   onClick={() => console.log('Clicked!')}
  * >
@@ -116,15 +116,15 @@ interface InteractiveButtonProps extends Omit<HTMLMotionProps<'button'>, 'varian
  * </InteractiveButton>
  * ```
  */
-export function InteractiveButton({ 
-  children, 
+export function InteractiveButton({
+  children,
   variant = 'primary',
   size = 'md',
   disabled = false,
   enableRipple = true,
   className = '',
   onClick,
-  ...props 
+  ...props
 }: InteractiveButtonProps) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([]);
@@ -177,7 +177,7 @@ export function InteractiveButton({
   // Base button styles
   const baseStyles = `
     relative overflow-hidden cursor-pointer border-0 outline-none
-    font-medium rounded-lg transition-colors focus-visible:ring-2 
+    font-medium rounded-lg transition-colors focus-visible:ring-2
     focus-visible:ring-offset-2 focus-visible:ring-blue-500
     ${disabled ? 'cursor-not-allowed' : ''}
     ${className}

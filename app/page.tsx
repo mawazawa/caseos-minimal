@@ -8,6 +8,10 @@
  * Dashboard Page - CaseOS Linear-inspired Design System
  */
 
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useCommandPalette } from './components/command-palette-provider';
 import {
   FileText,
   Calendar,
@@ -27,6 +31,25 @@ import { Card, CardHeader, CardTitle, CardContent } from './components/ui/card';
 // Ensure DRY by extracting fetch functions
 
 export default function Dashboard() {
+  const router = useRouter();
+  const { open: openCommandPalette } = useCommandPalette();
+
+  // Action handlers for dashboard buttons
+  const handleSearch = () => {
+    console.log('🔍 Opening search...');
+    openCommandPalette();
+  };
+
+  const handleFilter = () => {
+    console.log('🔽 Opening filter options...');
+    // TODO: Implement filter functionality
+    // Could open a filter modal or sidebar
+  };
+
+  const handleNewCase = () => {
+    console.log('🆕 Creating new case...');
+    router.push('/cases/new');
+  };
   return (
     <AppLayout>
       <PageHeader
@@ -34,13 +57,28 @@ export default function Dashboard() {
         description="Welcome back! Here's an overview of your legal matters."
         actions={
           <div className="flex items-center gap-3">
-            <Button variant="secondary" size="sm" leftIcon={<Search size={14} />}>
+            <Button
+              variant="secondary"
+              size="sm"
+              leftIcon={<Search size={14} />}
+              onClick={handleSearch}
+            >
               Search
             </Button>
-            <Button variant="secondary" size="sm" leftIcon={<Filter size={14} />}>
+            <Button
+              variant="secondary"
+              size="sm"
+              leftIcon={<Filter size={14} />}
+              onClick={handleFilter}
+            >
               Filter
             </Button>
-            <Button variant="primary" size="sm" leftIcon={<Plus size={14} />}>
+            <Button
+              variant="primary"
+              size="sm"
+              leftIcon={<Plus size={14} />}
+              onClick={handleNewCase}
+            >
               New Case
             </Button>
           </div>

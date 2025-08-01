@@ -163,7 +163,7 @@ describe('PageTransition', () => {
     );
 
     const motionDiv = screen.getByTestId('motion-div');
-    
+
     // Check for performance optimization styles
     expect(motionDiv.style.willChange).toBe('transform, opacity, filter');
     expect(motionDiv.style.transform).toBe('translateZ(0)');

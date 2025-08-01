@@ -131,7 +131,7 @@ describe('InteractiveButton', () => {
     );
 
     const button = screen.getByTestId('interactive-button');
-    
+
     expect(button).toBeDisabled();
     expect(button.className).toContain('cursor-not-allowed');
 
@@ -165,7 +165,7 @@ describe('InteractiveButton', () => {
     );
 
     const button = screen.getByTestId('interactive-button');
-    
+
     // Mock getBoundingClientRect for ripple positioning
     button.getBoundingClientRect = jest.fn(() => ({
       left: 10,
@@ -230,7 +230,7 @@ describe('InteractiveButton', () => {
     );
 
     const button = screen.getByTestId('interactive-button');
-    
+
     button.getBoundingClientRect = jest.fn(() => ({
       left: 0,
       top: 0,

@@ -42,18 +42,18 @@ jest.mock('framer-motion', () => ({
   motion: {
     div: jest.fn(({ children, ...props }) => {
       // Filter out motion-specific props that shouldn't be on DOM elements
-      const { 
-        animate, initial, exit, variants, transition, whileHover, whileTap, 
+      const {
+        animate, initial, exit, variants, transition, whileHover, whileTap,
         layoutId, layout, onAnimationComplete, onAnimationStart,
-        drag, dragConstraints, onDragEnd, ...domProps 
+        drag, dragConstraints, onDragEnd, ...domProps
       } = props;
       return <div data-testid="motion-div" {...domProps}>{children}</div>;
     }),
     button: jest.fn(({ children, ...props }) => {
-      const { 
-        animate, initial, exit, variants, transition, whileHover, whileTap, 
+      const {
+        animate, initial, exit, variants, transition, whileHover, whileTap,
         layoutId, layout, onAnimationComplete, onAnimationStart,
-        drag, dragConstraints, onDragEnd, ...domProps 
+        drag, dragConstraints, onDragEnd, ...domProps
       } = props;
       return <button data-testid="motion-button" {...domProps}>{children}</button>;
     }),
@@ -64,7 +64,7 @@ jest.mock('framer-motion', () => ({
 // Mock cmdk
 jest.mock('cmdk', () => ({
   Command: jest.fn(({ children }) => <div data-testid="command">{children}</div>),
-  CommandDialog: jest.fn(({ children, open }) => 
+  CommandDialog: jest.fn(({ children, open }) =>
     open ? <div data-testid="command-dialog">{children}</div> : null
   ),
   CommandEmpty: jest.fn(({ children }) => <div data-testid="command-empty">{children}</div>),

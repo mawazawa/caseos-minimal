@@ -1,10 +1,10 @@
 /*
  * ██████╗  ██████╗  ██████╗ ████████╗    ██╗      █████╗ ██╗   ██╗ ██████╗ ██╗   ██╗████████╗
  * ██╔══██╗██╔═══██╗██╔═══██╗╚══██╔══╝    ██║     ██╔══██╗╚██╗ ██╔╝██╔═══██╗██║   ██║╚══██╔══╝
- * ██████╔╝██║   ██║██║   ██║   ██║       ██║     ███████║ ╚████╔╝ ██║   ██║██║   ██║   ██║   
- * ██╔══██╗██║   ██║██║   ██║   ██║       ██║     ██╔══██║  ╚██╔╝  ██║   ██║██║   ██║   ██║   
- * ██║  ██║╚██████╔╝╚██████╔╝   ██║       ███████╗██║  ██║   ██║   ╚██████╔╝╚██████╔╝   ██║   
- * ╚═╝  ╚═╝ ╚═════╝  ╚═════╝    ╚═╝       ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝    ╚═╝   
+ * ██████╔╝██║   ██║██║   ██║   ██║       ██║     ███████║ ╚████╔╝ ██║   ██║██║   ██║   ██║
+ * ██╔══██╗██║   ██║██║   ██║   ██║       ██║     ██╔══██║  ╚██╔╝  ██║   ██║██║   ██║   ██║
+ * ██║  ██║╚██████╔╝╚██████╔╝   ██║       ███████╗██║  ██║   ██║   ╚██████╔╝╚██████╔╝   ██║
+ * ╚═╝  ╚═╝ ╚═════╝  ╚═════╝    ╚═╝       ╚══════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝  ╚═════╝    ╚═╝
  * Root Layout - CaseOS Linear-inspired Design System
  */
 
@@ -13,6 +13,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { CommandPalette } from "./components/motion";
+import { THEME_SCRIPT } from "./components/theme";
 
 // Enhanced Inter Variable Font Configuration for Premium Typography
 const inter = Inter({
@@ -24,7 +25,7 @@ const inter = Inter({
   // Fallback fonts for optimal loading
   fallback: [
     "-apple-system",
-    "BlinkMacSystemFont", 
+    "BlinkMacSystemFont",
     "Segoe UI",
     "system-ui",
     "sans-serif"
@@ -64,7 +65,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
-      <body className="font-sans antialiased">
+      <head>
+        {/* Theme script to prevent flash of wrong theme */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
+      <body 
+        className="font-sans antialiased"
+        style={{ 
+          transition: 'var(--theme-transition, none)',
+          backgroundColor: 'var(--color-background)',
+          color: 'var(--color-text-primary)'
+        }}
+      >
         <Providers>
           {children}
           {/* Global Command Palette (⌘K) */}

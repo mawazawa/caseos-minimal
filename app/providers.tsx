@@ -12,6 +12,7 @@
 
 import { SessionProvider } from 'next-auth/react';
 import { CommandPaletteProvider } from './components/command-palette-provider';
+import { ThemeProvider } from './components/theme';
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -19,10 +20,12 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <SessionProvider>
-      <CommandPaletteProvider>
-        {children}
-      </CommandPaletteProvider>
-    </SessionProvider>
+    <ThemeProvider enableSystem enableTransitions>
+      <SessionProvider>
+        <CommandPaletteProvider>
+          {children}
+        </CommandPaletteProvider>
+      </SessionProvider>
+    </ThemeProvider>
   );
 }

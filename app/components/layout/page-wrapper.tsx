@@ -1,12 +1,12 @@
 /*
- * ██████╗  █████╗  ██████╗ ███████╗    ██╗    ██╗██████╗  █████╗ ██████╗ ██████╗ ███████╗██████╗ 
+ * ██████╗  █████╗  ██████╗ ███████╗    ██╗    ██╗██████╗  █████╗ ██████╗ ██████╗ ███████╗██████╗
  * ██╔══██╗██╔══██╗██╔════╝ ██╔════╝    ██║    ██║██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗
  * ██████╔╝███████║██║  ███╗█████╗      ██║ █╗ ██║██████╔╝███████║██████╔╝██████╔╝█████╗  ██████╔╝
  * ██╔═══╝ ██╔══██║██║   ██║██╔══╝      ██║███╗██║██╔══██╗██╔══██║██╔═══╝ ██╔═══╝ ██╔══╝  ██╔══██╗
  * ██║     ██║  ██║╚██████╔╝███████╗    ╚███╔███╔╝██║  ██║██║  ██║██║     ██║     ███████╗██║  ██║
  * ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚══════╝     ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚══════╝╚═╝  ╚═╝
  * Page Wrapper Component - Provides page transitions for all routes
- * 
+ *
  * Wraps page content with smooth transitions based on route changes
  * Uses PageTransition component for Linear-inspired animations
  */
@@ -23,10 +23,10 @@ interface PageWrapperProps {
 
 /**
  * PageWrapper Component
- * 
+ *
  * Wraps page content with smooth transitions when navigating between routes.
  * Automatically detects route changes and triggers appropriate animations.
- * 
+ *
  * @example
  * ```tsx
  * <PageWrapper>

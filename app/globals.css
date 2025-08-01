@@ -34,7 +34,7 @@ body {
   letter-spacing: var(--letter-spacing-normal);
   background-color: var(--color-background);
   color: var(--color-text-primary);
-  transition: background-color var(--transition-base), color var(--transition-base);
+  transition: var(--theme-transition, background-color var(--transition-base), color var(--transition-base));
   /* Enable premium typography features */
   font-feature-settings: var(--font-feature-settings);
   font-variant-numeric: var(--font-variant-numeric);
@@ -53,11 +53,11 @@ body {
   --color-text-secondary: var(--color-text-secondary);
   --color-accent: var(--color-accent);
   --color-border: var(--color-border);
-  
+
   /* Typography */
   --font-family-sans: var(--font-family-sans);
   --font-family-mono: var(--font-family-mono);
-  
+
   /* Spacing - Map to Tailwind */
   --spacing-px: 1px;
   --spacing-0: var(--spacing-0);
@@ -73,7 +73,7 @@ body {
   --spacing-16: var(--spacing-16);
   --spacing-20: var(--spacing-20);
   --spacing-24: var(--spacing-24);
-  
+
   /* Border Radius */
   --radius-none: 0px;
   --radius-sm: var(--radius-sm);
@@ -83,7 +83,7 @@ body {
   --radius-xl: var(--radius-xl);
   --radius-2xl: var(--radius-2xl);
   --radius-full: var(--radius-full);
-  
+
   /* Shadows */
   --shadow-sm: var(--shadow-sm);
   --shadow: var(--shadow-md);

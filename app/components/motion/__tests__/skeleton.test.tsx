@@ -4,14 +4,14 @@
  */
 
 import { render, screen, waitFor } from '@testing-library/react';
-import { 
-  Skeleton, 
-  TextSkeleton, 
-  AvatarSkeleton, 
-  CardSkeleton, 
+import {
+  Skeleton,
+  TextSkeleton,
+  AvatarSkeleton,
+  CardSkeleton,
   TableSkeleton,
   ButtonSkeleton,
-  PageSkeleton 
+  PageSkeleton
 } from '../skeleton';
 
 // Mock framer-motion
@@ -57,7 +57,7 @@ describe('Skeleton', () => {
   describe('Basic Skeleton', () => {
     it('renders with default props', () => {
       render(<Skeleton />);
-      
+
       const skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton).toBeInTheDocument();
       expect(skeleton.style.width).toBe('100%');
@@ -66,7 +66,7 @@ describe('Skeleton', () => {
 
     it('applies custom width and height', () => {
       render(<Skeleton width={200} height={50} />);
-      
+
       const skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton.style.width).toBe('200px');
       expect(skeleton.style.height).toBe('50px');
@@ -74,7 +74,7 @@ describe('Skeleton', () => {
 
     it('applies variant classes correctly', () => {
       const { rerender } = render(<Skeleton variant="rectangular" />);
-      
+
       let skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton.className).toContain('rounded-md');
 
@@ -93,7 +93,7 @@ describe('Skeleton', () => {
 
     it('applies custom className', () => {
       render(<Skeleton className="custom-class" />);
-      
+
       const skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton.className).toContain('custom-class');
     });
@@ -111,21 +111,21 @@ describe('Skeleton', () => {
 
     it('disables shimmer when requested', () => {
       render(<Skeleton shimmer={false} />);
-      
+
       const skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton.style.willChange).toBe('opacity');
     });
 
     it('enables shimmer by default', () => {
       render(<Skeleton shimmer={true} />);
-      
+
       const skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton.style.willChange).toBe('background-position, opacity');
     });
 
     it('has GPU optimization styles', () => {
       render(<Skeleton />);
-      
+
       const skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton.style.transform).toBe('translateZ(0)');
     });
@@ -134,21 +134,21 @@ describe('Skeleton', () => {
   describe('TextSkeleton', () => {
     it('renders default number of lines', () => {
       render(<TextSkeleton />);
-      
+
       const skeletons = screen.getAllByTestId('motion-skeleton');
       expect(skeletons).toHaveLength(3); // default lines
     });
 
     it('renders custom number of lines', () => {
       render(<TextSkeleton lines={5} />);
-      
+
       const skeletons = screen.getAllByTestId('motion-skeleton');
       expect(skeletons).toHaveLength(5);
     });
 
     it('applies custom line height', () => {
       render(<TextSkeleton lineHeight={24} />);
-      
+
       const skeletons = screen.getAllByTestId('motion-skeleton');
       skeletons.forEach(skeleton => {
         expect(skeleton.style.height).toBe('24px');
@@ -157,7 +157,7 @@ describe('Skeleton', () => {
 
     it('applies different width to last line', () => {
       render(<TextSkeleton lines={2} lastLineWidth="50%" />);
-      
+
       const skeletons = screen.getAllByTestId('motion-skeleton');
       expect(skeletons[0].style.width).toBe('100%');
       expect(skeletons[1].style.width).toBe('50%');
@@ -167,7 +167,7 @@ describe('Skeleton', () => {
   describe('AvatarSkeleton', () => {
     it('renders with default medium size', () => {
       render(<AvatarSkeleton />);
-      
+
       const skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton.style.width).toBe('40px');
       expect(skeleton.style.height).toBe('40px');
@@ -176,7 +176,7 @@ describe('Skeleton', () => {
 
     it('renders different sizes correctly', () => {
       const { rerender } = render(<AvatarSkeleton size="sm" />);
-      
+
       let skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton.style.width).toBe('32px');
 
@@ -193,14 +193,14 @@ describe('Skeleton', () => {
   describe('CardSkeleton', () => {
     it('renders basic card skeleton', () => {
       render(<CardSkeleton />);
-      
+
       const skeletons = screen.getAllByTestId('motion-skeleton');
       expect(skeletons.length).toBeGreaterThan(0);
     });
 
     it('shows avatar when requested', () => {
       render(<CardSkeleton showAvatar />);
-      
+
       // Should have avatar skeleton (circular)
       const skeletons = screen.getAllByTestId('motion-skeleton');
       const avatarSkeleton = skeletons.find(s => s.className.includes('rounded-full'));
@@ -209,7 +209,7 @@ describe('Skeleton', () => {
 
     it('shows image when requested', () => {
       render(<CardSkeleton showImage />);
-      
+
       // Should have image skeleton with significant height
       const skeletons = screen.getAllByTestId('motion-skeleton');
       const imageSkeleton = skeletons.find(s => s.style.height === '200px');
@@ -218,7 +218,7 @@ describe('Skeleton', () => {
 
     it('renders custom number of text lines', () => {
       render(<CardSkeleton lines={5} />);
-      
+
       // Should have more skeletons for more text lines
       const skeletons = screen.getAllByTestId('motion-skeleton');
       expect(skeletons.length).toBeGreaterThan(3);
@@ -228,7 +228,7 @@ describe('Skeleton', () => {
   describe('TableSkeleton', () => {
     it('renders with default configuration', () => {
       render(<TableSkeleton />);
-      
+
       const skeletons = screen.getAllByTestId('motion-skeleton');
       // 4 columns header + 5 rows * 4 columns = 24 skeletons
       expect(skeletons).toHaveLength(24);
@@ -236,7 +236,7 @@ describe('Skeleton', () => {
 
     it('renders custom rows and columns', () => {
       render(<TableSkeleton rows={3} columns={3} />);
-      
+
       const skeletons = screen.getAllByTestId('motion-skeleton');
       // 3 columns header + 3 rows * 3 columns = 12 skeletons
       expect(skeletons).toHaveLength(12);
@@ -244,7 +244,7 @@ describe('Skeleton', () => {
 
     it('hides header when requested', () => {
       render(<TableSkeleton rows={2} columns={2} showHeader={false} />);
-      
+
       const skeletons = screen.getAllByTestId('motion-skeleton');
       // Only 2 rows * 2 columns = 4 skeletons (no header)
       expect(skeletons).toHaveLength(4);
@@ -254,7 +254,7 @@ describe('Skeleton', () => {
   describe('ButtonSkeleton', () => {
     it('renders with default medium size', () => {
       render(<ButtonSkeleton />);
-      
+
       const skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton.style.height).toBe('40px');
       expect(skeleton.style.width).toBe('100px');
@@ -262,7 +262,7 @@ describe('Skeleton', () => {
 
     it('renders different sizes correctly', () => {
       const { rerender } = render(<ButtonSkeleton size="sm" />);
-      
+
       let skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton.style.height).toBe('32px');
       expect(skeleton.style.width).toBe('80px');
@@ -275,14 +275,14 @@ describe('Skeleton', () => {
 
     it('applies custom width', () => {
       render(<ButtonSkeleton width={150} />);
-      
+
       const skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton.style.width).toBe('150px');
     });
 
     it('applies variant styling', () => {
       render(<ButtonSkeleton variant="primary" />);
-      
+
       const skeleton = screen.getByTestId('motion-skeleton');
       expect(skeleton.className).toContain('bg-blue-200');
     });
@@ -291,28 +291,28 @@ describe('Skeleton', () => {
   describe('PageSkeleton', () => {
     it('renders full page skeleton with all sections', () => {
       render(<PageSkeleton />);
-      
+
       const skeletons = screen.getAllByTestId('motion-skeleton');
       expect(skeletons.length).toBeGreaterThan(10); // Should have many skeleton elements
     });
 
     it('hides sidebar when requested', () => {
       const { container } = render(<PageSkeleton showSidebar={false} />);
-      
+
       // Check if sidebar content is not rendered
       expect(container.querySelector('.w-64')).not.toBeInTheDocument();
     });
 
     it('hides header when requested', () => {
       const { container } = render(<PageSkeleton showHeader={false} />);
-      
+
       // Check if header content is not rendered
       expect(container.querySelector('.border-b')).not.toBeInTheDocument();
     });
 
     it('applies custom className', () => {
       const { container } = render(<PageSkeleton className="custom-page" />);
-      
+
       expect(container.firstChild).toHaveClass('custom-page');
     });
   });

@@ -1,12 +1,12 @@
 /*
  * ███████╗███████╗ █████╗ ██████╗  ██████╗██╗  ██╗    ██████╗  █████╗ ██╗     ███████╗████████╗████████╗███████╗
  * ██╔════╝██╔════╝██╔══██╗██╔══██╗██╔════╝██║  ██║    ██╔══██╗██╔══██╗██║     ██╔════╝╚══██╔══╝╚══██╔══╝██╔════╝
- * ███████╗█████╗  ███████║██████╔╝██║     ███████║    ██████╔╝███████║██║     █████╗     ██║      ██║   █████╗  
- * ╚════██║██╔══╝  ██╔══██║██╔══██╗██║     ██╔══██║    ██╔═══╝ ██╔══██║██║     ██╔══╝     ██║      ██║   ██╔══╝  
+ * ███████╗█████╗  ███████║██████╔╝██║     ███████║    ██████╔╝███████║██║     █████╗     ██║      ██║   █████╗
+ * ╚════██║██╔══╝  ██╔══██║██╔══██╗██║     ██╔══██║    ██╔═══╝ ██╔══██║██║     ██╔══╝     ██║      ██║   ██╔══╝
  * ███████║███████╗██║  ██║██║  ██║╚██████╗██║  ██║    ██║     ██║  ██║███████╗███████╗   ██║      ██║   ███████╗
  * ╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝    ╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝      ╚═╝   ╚══════╝
  * Command Palette - Linear-inspired global search and navigation
- * 
+ *
  * Provides instant access to all app functions via ⌘K
  * Lightning-fast fuzzy search with keyboard navigation
  * Recent items, AI chat integration, and quick actions
@@ -14,8 +14,7 @@
 
 'use client';
 
-import { 
-  Command,
+import {
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -42,14 +41,14 @@ import {
 
 // Animation variants for smooth command palette appearance
 const dialogVariants: Variants = {
-  initial: { 
-    opacity: 0, 
+  initial: {
+    opacity: 0,
     scale: 0.96,
     y: -20,
     filter: 'blur(4px)'
   },
-  animate: { 
-    opacity: 1, 
+  animate: {
+    opacity: 1,
     scale: 1,
     y: 0,
     filter: 'blur(0px)',
@@ -58,8 +57,8 @@ const dialogVariants: Variants = {
       ease: [0.16, 1, 0.3, 1] as const // Linear-inspired easing
     }
   },
-  exit: { 
-    opacity: 0, 
+  exit: {
+    opacity: 0,
     scale: 0.96,
     y: -10,
     filter: 'blur(2px)',
@@ -94,17 +93,17 @@ interface CommandPaletteProps {
 
 /**
  * CommandPalette Component
- * 
+ *
  * Linear-inspired command palette with:
  * - Global ⌘K keyboard shortcut
  * - Fuzzy search for instant navigation
  * - Recent items and quick actions
  * - Smooth animations and transitions
  * - AI chat integration placeholder
- * 
+ *
  * @example
  * ```tsx
- * <CommandPalette 
+ * <CommandPalette
  *   customCommands={[
  *     {
  *       id: 'custom-action',
@@ -117,9 +116,9 @@ interface CommandPaletteProps {
  * />
  * ```
  */
-export function CommandPalette({ 
+export function CommandPalette({
   customCommands = [],
-  onCommandExecute 
+  onCommandExecute
 }: CommandPaletteProps) {
   const [open, setOpen] = useState(false);
   const [recentCommands, setRecentCommands] = useState<string[]>([]);
@@ -265,10 +264,10 @@ export function CommandPalette({
 
     // Execute the command
     command.action();
-    
+
     // Notify parent component
     onCommandExecute?.(command);
-    
+
     // Close palette
     setOpen(false);
   }, [onCommandExecute]);
@@ -323,8 +322,8 @@ export function CommandPalette({
                   {/* Search Input */}
                   <div className="flex items-center border-b border-gray-200 dark:border-gray-700 px-4">
                     <Search className="w-5 h-5 text-gray-400 mr-3" />
-                    <CommandInput 
-                      placeholder="Search for anything..." 
+                    <CommandInput
+                      placeholder="Search for anything..."
                       className="flex-1 py-4 bg-transparent border-0 outline-none text-lg placeholder-gray-400"
                     />
                     <div className="text-xs text-gray-400 font-mono">ESC</div>
