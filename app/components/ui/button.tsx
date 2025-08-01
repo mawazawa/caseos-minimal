@@ -5,11 +5,15 @@
  * ██╔══██╗██║   ██║   ██║      ██║   ██║   ██║██║╚██╗██║
  * ██████╔╝╚██████╔╝   ██║      ██║   ╚██████╔╝██║ ╚████║
  * ╚═════╝  ╚═════╝    ╚═╝      ╚═╝    ╚═════╝ ╚═╝  ╚═══╝
- * Button Component - Linear-inspired Design System
+ * Button Component - Linear-inspired Design System with Motion
+ * Enhanced with Framer Motion micro-interactions and haptic feedback
  */
 
+'use client';
+
 import { clsx } from 'clsx';
-import { forwardRef, ButtonHTMLAttributes } from 'react';
+import { forwardRef, ButtonHTMLAttributes, useState, useEffect } from 'react';
+import { motion, type Variants } from 'framer-motion';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'ghost' | 'destructive';
@@ -19,7 +23,75 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
+  /**
+   * Enable enhanced motion interactions (default: true)
+   */
+  enableMotion?: boolean;
+  /**
+   * Enable ripple effect on click (default: true)
+   */
+  enableRipple?: boolean;
 }
+
+// Enhanced button animation variants for Linear-inspired feel
+const buttonVariants: Variants = {
+  idle: { 
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.15,
+      ease: [0.4, 0, 0.2, 1]
+    }
+  },
+  hover: { 
+    scale: 1.02,
+    y: -1,
+    transition: {
+      duration: 0.15,
+      ease: [0.4, 0, 0.2, 1]
+    }
+  },
+  tap: { 
+    scale: 0.96,
+    y: 0,
+    transition: {
+      duration: 0.1,
+      ease: [0.4, 0, 1, 1]
+    }
+  },
+  disabled: {
+    scale: 1,
+    y: 0,
+    opacity: 0.6,
+    transition: {
+      duration: 0.2
+    }
+  }
+};
+
+// Reduced motion variants for accessibility
+const reducedMotionVariants: Variants = {
+  idle: { opacity: 1 },
+  hover: { opacity: 0.9 },
+  tap: { opacity: 0.8 },
+  disabled: { opacity: 0.6 }
+};
+
+// Ripple effect variants
+const rippleVariants: Variants = {
+  initial: { 
+    scale: 0, 
+    opacity: 0.6 
+  },
+  animate: { 
+    scale: 4, 
+    opacity: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.4, 0, 0.2, 1]
+    }
+  }
+};
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ 
@@ -31,8 +103,57 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     leftIcon,
     rightIcon,
     disabled,
+    enableMotion = true,
+    enableRipple = true,
+    onClick,
     ...props 
   }, ref) => {
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+    const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([]);
+
+    // Check for reduced motion preference
+    useEffect(() => {
+      if (!enableMotion) return;
+      
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      setPrefersReducedMotion(mediaQuery.matches);
+
+      const handleChange = (e: MediaQueryListEvent) => {
+        setPrefersReducedMotion(e.matches);
+      };
+
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }, [enableMotion]);
+
+    // Handle enhanced click with ripple effect
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (disabled || isLoading) return;
+
+      // Create ripple effect if enabled and motion is allowed
+      if (enableRipple && enableMotion && !prefersReducedMotion) {
+        const button = event.currentTarget;
+        const rect = button.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        const newRipple = {
+          id: Date.now(),
+          x,
+          y
+        };
+
+        setRipples(prev => [...prev, newRipple]);
+
+        // Remove ripple after animation
+        setTimeout(() => {
+          setRipples(prev => prev.filter(ripple => ripple.id !== newRipple.id));
+        }, 600);
+      }
+
+      // Call original onClick
+      onClick?.(event);
+    };
     const baseStyles = [
       // Base button styles
       'inline-flex items-center justify-center gap-2',
@@ -99,14 +220,89 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ...baseStyles,
       ...variants[variant],
       ...sizes[size],
+      // Enhanced motion styles
+      enableMotion && 'will-change-transform',
+      enableRipple && 'overflow-hidden',
       className,
     ]);
 
+    // Choose appropriate variants based on user preference and enableMotion
+    const animationVariants = enableMotion 
+      ? (prefersReducedMotion ? reducedMotionVariants : buttonVariants)
+      : undefined;
+
+    // Handle motion vs regular button
+    if (enableMotion) {
+      const MotionButton = motion.button;
+      return (
+        <MotionButton
+          ref={ref}
+          className={classes}
+          disabled={disabled || isLoading}
+          onClick={handleClick}
+          style={{
+            // GPU optimization for motion
+            transform: 'translateZ(0)',
+          }}
+          variants={animationVariants}
+          initial="idle"
+          whileHover={disabled || isLoading ? "disabled" : "hover"}
+          whileTap={disabled || isLoading ? "disabled" : "tap"}
+          animate={disabled || isLoading ? "disabled" : "idle"}
+          // Filter out motion-specific props from ...props
+          {...Object.fromEntries(
+            Object.entries(props).filter(([key]) => 
+              !['whileHover', 'whileTap', 'animate', 'initial', 'variants', 'transition', 'onAnimationComplete'].includes(key)
+            )
+          )}
+        >
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+            </div>
+          )}
+          
+          {/* Content */}
+          <span className={clsx(
+            'flex items-center gap-2 relative z-10', 
+            isLoading && 'opacity-0'
+          )}>
+            {leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
+            {children}
+            {rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
+          </span>
+
+          {/* Ripple effects */}
+          {enableRipple && !prefersReducedMotion && (
+            <div className="absolute inset-0 pointer-events-none">
+              {ripples.map(ripple => (
+                <motion.div
+                  key={ripple.id}
+                  className="absolute rounded-full bg-white opacity-30"
+                  style={{
+                    left: ripple.x - 10,
+                    top: ripple.y - 10,
+                    width: 20,
+                    height: 20,
+                  }}
+                  variants={rippleVariants}
+                  initial="initial"
+                  animate="animate"
+                />
+              ))}
+            </div>
+          )}
+        </MotionButton>
+      );
+    }
+
+    // Regular button without motion
     return (
       <button
         ref={ref}
         className={classes}
         disabled={disabled || isLoading}
+        onClick={handleClick}
         {...props}
       >
         {isLoading && (
@@ -114,7 +310,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
           </div>
         )}
-        <span className={clsx('flex items-center gap-2', isLoading && 'opacity-0')}>
+        
+        {/* Content */}
+        <span className={clsx(
+          'flex items-center gap-2 relative z-10', 
+          isLoading && 'opacity-0'
+        )}>
           {leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
           {children}
           {rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}

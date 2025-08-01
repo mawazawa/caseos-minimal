@@ -1,154 +1,103 @@
-/*
- * ░░░░██╗███████╗███████╗████████╗    ███████╗███████╗████████╗██╗   ██╗██████╗
- * ░░░██╔╝██╔════╝██╔════╝╚══██╔══╝    ██╔════╝██╔════╝╚══██╔══╝██║   ██║██╔══██╗
- * ░░██╔╝ █████╗  ███████╗   ██║       ███████╗█████╗     ██║   ██║   ██║██████╔╝
- * ░██╔╝  ██╔══╝  ╚════██║   ██║       ╚════██║██╔══╝     ██║   ██║   ██║██╔═══╝
- * ██╔╝   ███████╗███████║   ██║       ███████║███████╗   ██║   ╚██████╔╝██║
- * ╚═╝    ╚══════╝╚══════╝   ╚═╝       ╚══════╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝
- * Jest Setup Configuration - CaseOS Legal AI Platform
- *
- * Educational Note: This file runs before all our tests to set up the testing
- * environment. It's like preparing a clean workspace before you start building
- * with Lego blocks - everything needs to be organized and ready!
- */
+import '@testing-library/jest-dom';
 
-// Import Jest DOM matchers for better testing
-import '@testing-library/jest-dom'
-
-// Mock Next.js router for testing
-jest.mock('next/router', () => ({
-  useRouter() {
-    return {
-      route: '/',
-      pathname: '/',
-      query: {},
-      asPath: '/',
-      push: jest.fn(),
-      pop: jest.fn(),
-      reload: jest.fn(),
-      back: jest.fn(),
-      prefetch: jest.fn(),
-      beforePopState: jest.fn(),
-      events: {
-        on: jest.fn(),
-        off: jest.fn(),
-        emit: jest.fn(),
-      },
-    }
-  },
-}))
-
-// Mock Next.js navigation for App Router
-jest.mock('next/navigation', () => ({
-  useRouter() {
-    return {
-      push: jest.fn(),
-      replace: jest.fn(),
-      prefetch: jest.fn(),
-      back: jest.fn(),
-      forward: jest.fn(),
-      refresh: jest.fn(),
-    }
-  },
-  usePathname() {
-    return '/'
-  },
-  useSearchParams() {
-    return new URLSearchParams()
-  },
-}))
-
-// Mock NextAuth.js for testing
-jest.mock('next-auth/react', () => ({
-  useSession: jest.fn(() => ({
-    data: null,
-    status: 'unauthenticated',
+// Mock window.matchMedia for tests
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
   })),
-  signIn: jest.fn(),
-  signOut: jest.fn(),
-  SessionProvider: ({ children }) => children,
-}))
+});
 
-// Mock Prisma client for testing
-jest.mock('./lib/prisma', () => ({
-  prisma: {
-    user: {
-      findUnique: jest.fn(),
-      findMany: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    },
-    case: {
-      findUnique: jest.fn(),
-      findMany: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    },
-    document: {
-      findUnique: jest.fn(),
-      findMany: jest.fn(),
-      create: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    },
-    $connect: jest.fn(),
-    $disconnect: jest.fn(),
-  },
-}))
+// Mock intersection observer
+global.IntersectionObserver = class IntersectionObserver {
+  constructor() {}
+  disconnect() {}
+  observe() {}
+  unobserve() {}
+};
 
-// Mock ResizeObserver for cmdk (command palette)
-global.ResizeObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-}))
+// Suppress console warnings for tests
+const originalWarn = console.warn;
+const originalError = console.error;
 
-// Mock IntersectionObserver for better test compatibility
-global.IntersectionObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-}))
+beforeEach(() => {
+  console.warn = jest.fn();
+  console.error = jest.fn();
+});
 
-// Mock scrollIntoView for cmdk
-Element.prototype.scrollIntoView = jest.fn()
-
-// Global test utilities
-global.console = {
-  ...console,
-  // Suppress console.log in tests unless needed
-  log: jest.fn(),
-  debug: jest.fn(),
-  info: jest.fn(),
-  warn: console.warn, // Keep warnings
-  error: console.error, // Keep errors
-}
-
-// Mock environment variables for testing
-process.env.NODE_ENV = 'test'
-process.env.NEXT_PUBLIC_APP_URL = 'http://localhost:3000'
-process.env.DATABASE_URL = 'postgres://test:test@localhost:5432/test'
-process.env.NEXTAUTH_SECRET = 'test-secret-that-is-at-least-32-characters-long'
-process.env.NEXTAUTH_URL = 'http://localhost:3000'
-
-// Setup test timeout
-jest.setTimeout(10000)
-
-// Clean up after each test
 afterEach(() => {
-  jest.clearAllMocks()
-})
+  console.warn = originalWarn;
+  console.error = originalError;
+});
 
-console.log('🧪 Jest setup complete - Ready for testing!')
+// Mock framer-motion for stable testing
+jest.mock('framer-motion', () => ({
+  motion: {
+    div: jest.fn(({ children, ...props }) => {
+      // Filter out motion-specific props that shouldn't be on DOM elements
+      const { 
+        animate, initial, exit, variants, transition, whileHover, whileTap, 
+        layoutId, layout, onAnimationComplete, onAnimationStart,
+        drag, dragConstraints, onDragEnd, ...domProps 
+      } = props;
+      return <div data-testid="motion-div" {...domProps}>{children}</div>;
+    }),
+    button: jest.fn(({ children, ...props }) => {
+      const { 
+        animate, initial, exit, variants, transition, whileHover, whileTap, 
+        layoutId, layout, onAnimationComplete, onAnimationStart,
+        drag, dragConstraints, onDragEnd, ...domProps 
+      } = props;
+      return <button data-testid="motion-button" {...domProps}>{children}</button>;
+    }),
+  },
+  AnimatePresence: jest.fn(({ children }) => <div data-testid="animate-presence">{children}</div>),
+}));
 
-/*
- * Educational Notes:
- *
- * 1. @testing-library/jest-dom adds helpful matchers like toBeInTheDocument()
- * 2. We mock Next.js features because they don't exist in the test environment
- * 3. Mocking means creating fake versions that behave predictably
- * 4. We suppress most console.log messages to keep tests clean
- * 5. Each test gets a fresh start with cleared mocks
- */
+// Mock cmdk
+jest.mock('cmdk', () => ({
+  Command: jest.fn(({ children }) => <div data-testid="command">{children}</div>),
+  CommandDialog: jest.fn(({ children, open }) => 
+    open ? <div data-testid="command-dialog">{children}</div> : null
+  ),
+  CommandEmpty: jest.fn(({ children }) => <div data-testid="command-empty">{children}</div>),
+  CommandGroup: jest.fn(({ children, heading }) => (
+    <div data-testid="command-group">
+      <div data-testid="group-heading">{heading}</div>
+      {children}
+    </div>
+  )),
+  CommandInput: jest.fn((props) => (
+    <input data-testid="command-input" {...props} />
+  )),
+  CommandItem: jest.fn(({ children, onSelect, ...props }) => (
+    <div data-testid="command-item" onClick={onSelect} {...props}>
+      {children}
+    </div>
+  )),
+  CommandList: jest.fn(({ children }) => <div data-testid="command-list">{children}</div>),
+  CommandSeparator: jest.fn(() => <div data-testid="command-separator" />),
+}));
+
+// Mock Next.js router
+const mockPush = jest.fn();
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+    back: jest.fn(),
+    forward: jest.fn(),
+    refresh: jest.fn(),
+    replace: jest.fn(),
+    prefetch: jest.fn(),
+  }),
+}));
+
+// Export for test access
+global.mockPush = mockPush;

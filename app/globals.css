@@ -31,9 +31,17 @@ body {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
   background-color: var(--color-background);
   color: var(--color-text-primary);
   transition: background-color var(--transition-base), color var(--transition-base);
+  /* Enable premium typography features */
+  font-feature-settings: var(--font-feature-settings);
+  font-variant-numeric: var(--font-variant-numeric);
+  /* Optimize font rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Tailwind Integration with Design Tokens */
@@ -104,13 +112,52 @@ input, textarea, select {
   color: inherit;
 }
 
-/* Smooth Transitions for Theme Changes */
+/* Smooth Transitions for Theme Changes & Typography */
 *,
 *::before,
 *::after {
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, font-weight, letter-spacing;
   transition-timing-function: ease;
   transition-duration: var(--transition-base);
+}
+
+/* Typography Animation Classes */
+.typography-interactive {
+  transition: var(--transition-typography);
+}
+
+.typography-interactive:hover {
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+.typography-brand {
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
+  transition: var(--transition-typography);
+}
+
+.typography-brand:hover {
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tighter);
+}
+
+.typography-heading {
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-tight);
+}
+
+.typography-body {
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  line-height: var(--line-height-normal);
+}
+
+.typography-caption {
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  line-height: var(--line-height-snug);
 }
 
 /* Focus Styles */

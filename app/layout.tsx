@@ -12,11 +12,27 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { CommandPalette } from "./components/motion";
 
+// Enhanced Inter Variable Font Configuration for Premium Typography
 const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
+  subsets: ["latin", "latin-ext"],
   variable: "--font-inter",
+  display: "swap",
+  // Optimize font loading with preload
+  preload: true,
+  // Fallback fonts for optimal loading
+  fallback: [
+    "-apple-system",
+    "BlinkMacSystemFont", 
+    "Segoe UI",
+    "system-ui",
+    "sans-serif"
+  ],
+  // Use variable weight for optimal performance
+  weight: "variable",
+  // Enable advanced font features
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
@@ -51,6 +67,8 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <Providers>
           {children}
+          {/* Global Command Palette (⌘K) */}
+          <CommandPalette />
         </Providers>
       </body>
     </html>

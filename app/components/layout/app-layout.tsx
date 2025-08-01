@@ -12,6 +12,7 @@
 
 import { clsx } from 'clsx';
 import { Sidebar } from '../navigation/sidebar';
+import { PageWrapper } from './page-wrapper';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -32,9 +33,11 @@ export function AppLayout({ children, className }: AppLayoutProps) {
           className
         )}
       >
-        {/* Main Content Area */}
+        {/* Main Content Area with Page Transitions */}
         <main className="flex-1 overflow-auto">
-          {children}
+          <PageWrapper>
+            {children}
+          </PageWrapper>
         </main>
       </div>
     </div>
