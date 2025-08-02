@@ -245,16 +245,15 @@ export function PricingSection() {
                   </div>
 
                   {/* CTA Button */}
-                  <Button
-                    variant={tier.ctaVariant}
-                    size="lg"
-                    className="w-full"
-                    asChild
-                  >
-                    <Link href="/auth/signup">
+                  <Link href="/auth/signup">
+                    <Button
+                      variant={tier.ctaVariant}
+                      size="lg"
+                      className="w-full"
+                    >
                       {tier.ctaText}
-                    </Link>
-                  </Button>
+                    </Button>
+                  </Link>
 
                   {/* Additional Info */}
                   <div className="mt-6 text-center">
@@ -279,11 +278,11 @@ export function PricingSection() {
           <p className="text-[var(--color-text-secondary)] mb-6">
             Need a custom solution for your law firm or organization?
           </p>
-          <Button variant="secondary" size="lg" asChild>
-            <Link href="/contact">
+          <Link href="/contact">
+            <Button variant="secondary" size="lg">
               Contact Sales
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </motion.div>
 
         {/* Money-back Guarantee */}

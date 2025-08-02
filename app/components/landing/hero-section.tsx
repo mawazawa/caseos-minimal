@@ -45,7 +45,7 @@ export function HeroSection() {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: [0.4, 0, 0.2, 1]
+        ease: [0.4, 0, 0.2, 1] as const
       }
     }
   };
@@ -57,7 +57,7 @@ export function HeroSection() {
       transition: {
         duration: 6,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: "easeInOut" as const
       }
     }
   };
@@ -191,32 +191,30 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Call to Action Buttons */}
+                    {/* Call to Action Buttons */}
           <motion.div variants={itemVariants} className="mb-12">
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button
-                variant="primary"
-                size="lg"
-                className="text-lg px-8 py-4"
-                rightIcon={<ArrowRight size={20} />}
-                asChild
-              >
-                <Link href="/auth/signup">
+              <Link href="/auth/signup">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className="text-lg px-8 py-4"
+                  rightIcon={<ArrowRight size={20} />}
+                >
                   Start Free Trial
-                </Link>
-              </Button>
-
-              <Button
-                variant="secondary"
-                size="lg"
-                className="text-lg px-8 py-4"
-                leftIcon={<Play size={20} />}
-                asChild
-              >
-                <Link href="#demo">
+                </Button>
+              </Link>
+              
+              <Link href="#demo">
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  className="text-lg px-8 py-4"
+                  leftIcon={<Play size={20} />}
+                >
                   Watch Demo
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </div>
 
             <p className="mt-4 text-[var(--color-text-tertiary)] text-sm">
