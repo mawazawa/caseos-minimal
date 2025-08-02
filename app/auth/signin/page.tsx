@@ -5,19 +5,19 @@
  * ╚════██║██║██║   ██║██║╚██╗██║    ██║██║╚██╗██║
  * ███████║██║╚██████╔╝██║ ╚████║    ██║██║ ╚████║
  * ╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝    ╚═╝╚═╝  ╚═══╝
- * Sign In Page - Theme-Aware Professional Authentication
+ * Cosmic Sign In - Moon-themed Authentication with Carl Sagan's Wisdom
  */
 
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
-import EnhancedAuthForm from '@/components/auth/enhanced-auth-form';
+import { CosmicAuthForm } from '@/app/components/auth/cosmic-auth-form';
 import { ThemeToggle } from '@/app/components/theme';
 
 export const metadata: Metadata = {
-  title: 'Sign In | CaseOS™',
-  description: 'Sign in to your CaseOS™ account to access AI-powered legal assistance.',
+  title: 'Sign In | CaseOS™ - Your Legal Journey Awaits',
+  description: 'Sign in to CaseOS™ and embark on your journey through the legal cosmos with AI-powered assistance.',
 };
 
 export default async function SignInPage({
@@ -36,118 +36,182 @@ export default async function SignInPage({
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] relative flex items-center justify-center p-4 overflow-hidden">
-      {/* Theme Toggle - Fixed Position */}
-      <div className="fixed top-4 right-4 z-50">
-        <ThemeToggle size="md" variant="default" showLabel />
+    <div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden">
+      {/* Cosmic Background - Moon/Earthrise */}
+      <div className="absolute inset-0">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('/moon-earthrise.jpg')`,
+          }}
+        />
+        {/* Cosmic Overlay - Moon-themed colors */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-blue-900/90 to-indigo-900/95 dark:from-slate-950/98 dark:via-blue-950/95 dark:to-indigo-950/98" />
+
+        {/* Animated Stars */}
+        <div className="absolute inset-0">
+          {[...Array(100)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 3}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Floating Moon Dust Particles */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-2 h-2 bg-blue-200/20 rounded-full animate-float"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${10 + Math.random() * 10}s`,
+              }}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Background Effects - Theme Aware */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-accent)]/5 via-transparent to-[var(--color-accent)]/5" />
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--color-accent)]/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[var(--color-accent)]/5 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.02] dark:opacity-[0.05]" />
+      {/* Theme Toggle - Fixed Position */}
+      <div className="fixed top-6 right-6 z-50">
+        <ThemeToggle size="lg" variant="cosmic" showLabel />
       </div>
 
       {/* Main Content */}
-      <div className="w-full max-w-md mx-auto relative z-10">
-        <div className="bg-[var(--color-surface-elevated)] border border-[var(--color-border)] rounded-3xl shadow-[var(--shadow-xl)] p-8 relative overflow-hidden backdrop-blur-sm">
-          {/* Card Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-accent)]/2 via-transparent to-[var(--color-accent)]/2 pointer-events-none" />
+      <div className="w-full max-w-lg mx-auto relative z-10">
+        {/* Carl Sagan Inspiration Quote */}
+        <div className="text-center mb-8 px-6">
+          <blockquote className="text-blue-100/90 text-lg font-light italic leading-relaxed mb-4">
+            "The cosmos is within us. We are made of star-stuff. We are a way for the universe to know itself."
+          </blockquote>
+          <cite className="text-blue-200/70 text-sm font-medium">
+            — Carl Sagan, inspiring every soul who dares to chart their own course
+          </cite>
+        </div>
+
+        {/* Auth Card */}
+        <div className="bg-slate-800/40 dark:bg-slate-900/60 backdrop-blur-xl border border-blue-400/20 rounded-3xl shadow-2xl shadow-blue-900/20 p-8 relative overflow-hidden">
+          {/* Card Cosmic Glow */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-400/5 via-transparent to-indigo-400/5 pointer-events-none" />
+          <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-400/10 rounded-full blur-3xl" />
+          <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-indigo-400/10 rounded-full blur-3xl" />
 
           {/* Logo and Title */}
           <div className="text-center mb-8 relative z-10">
             <Link href="/" className="inline-flex items-center gap-3 group mb-6">
-              <div className="w-12 h-12 rounded-xl bg-[var(--color-accent)] flex items-center justify-center shadow-lg group-hover:shadow-[var(--color-accent)]/25 transition-all duration-300">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/25 group-hover:shadow-blue-500/40 transition-all duration-300 group-hover:scale-105">
                 <svg
-                  width="24"
-                  height="24"
+                  width="28"
+                  height="28"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-[var(--color-accent-text)]"
+                  className="text-white"
                 >
-                  <path d="M3 6l3 6 3-6" />
-                  <path d="M21 6l-3 6-3-6" />
-                  <path d="M12 3v18" />
-                  <path d="M8 21h8" />
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M12 1v6m0 6v6" />
+                  <path d="m4.2 4.2 4.2 4.2m5.6 0 4.2-4.2m-4.2 13.6 4.2 4.2M4.2 19.8l4.2-4.2" />
                 </svg>
               </div>
-              <span className="text-2xl font-bold text-[var(--color-text-primary)]">CaseOS™</span>
+              <span className="text-3xl font-bold bg-gradient-to-r from-blue-200 to-indigo-200 bg-clip-text text-transparent">
+                CaseOS™
+              </span>
             </Link>
 
-            <h1 className="text-3xl font-bold text-[var(--color-text-primary)] mb-2">
-              Welcome Back
+            <h1 className="text-4xl font-bold text-white mb-3">
+              Welcome Back, Explorer
             </h1>
-            <p className="text-[var(--color-text-secondary)]">
-              Sign in to access your legal dashboard
+            <p className="text-blue-200/80 text-lg">
+              Continue your journey through the legal cosmos
             </p>
           </div>
 
           {/* Error Display */}
           {resolvedSearchParams.error && (
-            <div className="mb-6 p-4 bg-[var(--color-error-background)] border border-[var(--color-error)]/20 rounded-xl">
-              <p className="text-[var(--font-size-sm)] text-[var(--color-error)]">
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-400/20 rounded-xl backdrop-blur-sm">
+              <p className="text-red-300 text-sm text-center">
                 {resolvedSearchParams.error === 'CredentialsSignin'
-                  ? 'Invalid email or password. Please try again.'
+                  ? 'Navigation error: Invalid coordinates. Please recalibrate.'
                   : resolvedSearchParams.error === 'OAuthAccountNotLinked'
-                  ? 'Email already exists with different sign-in method.'
-                  : 'An error occurred during sign in. Please try again.'}
+                  ? 'Signal conflict: This channel is already tuned to a different frequency.'
+                  : 'Cosmic interference detected. Please try again.'}
               </p>
             </div>
           )}
 
-          {/* Enhanced Auth Form */}
-          <EnhancedAuthForm mode="signin" />
+          {/* Cosmic Auth Form */}
+          <CosmicAuthForm mode="signin" />
 
-          {/* Footer Links */}
+          {/* Legal Journey Encouragement */}
           <div className="mt-8 text-center space-y-4 relative z-10">
-            <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)]">
-              Don&apos;t have an account?{' '}
+            <p className="text-blue-200/70 text-sm">
+              New to the legal universe?{' '}
               <Link
                 href="/auth/signup"
-                className="text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] font-medium transition-colors duration-200"
+                className="text-blue-300 hover:text-blue-200 font-medium transition-colors duration-200 underline underline-offset-2"
               >
-                Sign up
+                Begin your journey
               </Link>
             </p>
             <Link
               href="/auth/forgot-password"
-              className="text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] text-[var(--font-size-sm)] transition-colors duration-200 block"
+              className="text-blue-300/60 hover:text-blue-200/80 text-sm transition-colors duration-200 block"
             >
-              Forgot your password?
+              Lost your navigation keys?
             </Link>
           </div>
         </div>
 
-        {/* Legal Disclaimer */}
-        <p className="mt-8 text-center text-[var(--color-text-tertiary)] text-[var(--font-size-xs)] px-4">
-          By signing in, you agree to our{' '}
+        {/* Legal Disclaimer with Cosmic Theme */}
+        <p className="mt-8 text-center text-blue-200/50 text-xs px-4 leading-relaxed">
+          By signing in, you join our constellation and agree to our{' '}
           <Link
             href="/terms"
-            className="underline hover:text-[var(--color-text-secondary)] transition-colors"
+            className="underline hover:text-blue-200/70 transition-colors"
           >
-            Terms of Service
+            Galactic Terms
           </Link>{' '}
           and{' '}
           <Link
             href="/privacy"
-            className="underline hover:text-[var(--color-text-secondary)] transition-colors"
+            className="underline hover:text-blue-200/70 transition-colors"
           >
-            Privacy Policy
+            Privacy Protocols
           </Link>
         </p>
       </div>
 
-      {/* Command Palette Hint */}
-      <div className="fixed bottom-4 right-4 text-[var(--color-text-tertiary)] text-[var(--font-size-xs)] flex items-center gap-2">
-        <kbd className="px-2 py-1 bg-[var(--color-surface)] border border-[var(--color-border)] rounded text-[var(--color-text-secondary)]">⌘K</kbd>
-        <span>to search</span>
+      {/* Command Palette Hint - Cosmic Style */}
+      <div className="fixed bottom-6 right-6 text-blue-200/60 text-xs flex items-center gap-2">
+        <kbd className="px-3 py-2 bg-slate-800/60 border border-blue-400/20 rounded-lg text-blue-200/80 font-mono backdrop-blur-sm">
+          ⌘K
+        </kbd>
+        <span>to navigate the cosmos</span>
       </div>
+
+      {/* CSS Animation for floating particles */}
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          33% { transform: translateY(-20px) rotate(120deg); }
+          66% { transform: translateY(20px) rotate(240deg); }
+        }
+        .animate-float {
+          animation: float 15s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }

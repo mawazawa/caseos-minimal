@@ -5,20 +5,20 @@
  * ╚════██║██║██║   ██║██║╚██╗██║    ██║   ██║██╔═══╝
  * ███████║██║╚██████╔╝██║ ╚████║    ╚██████╔╝██║
  * ╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝     ╚═════╝ ╚═╝
- * Sign Up Page - Theme-Aware Professional Registration
+ * Cosmic Sign Up - Begin Your Legal Journey Among the Stars
  */
 
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
-import EnhancedAuthForm from '@/components/auth/enhanced-auth-form';
+import { CosmicAuthForm } from '@/app/components/auth/cosmic-auth-form';
 import { ThemeToggle } from '@/app/components/theme';
-import { CheckCircle, Shield, Zap, Users } from 'lucide-react';
+import { CheckCircle, Shield, Zap, Users, Scale, BookOpen, Heart } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Sign Up | CaseOS™',
-  description: 'Create your CaseOS™ account to access AI-powered legal assistance.',
+  title: 'Join CaseOS™ | Begin Your Legal Journey',
+  description: 'Join thousands of self-represented litigants navigating the legal cosmos with AI-powered assistance.',
 };
 
 export default async function SignUpPage({
@@ -37,143 +37,217 @@ export default async function SignUpPage({
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] relative flex items-center justify-center p-4 overflow-hidden">
-      {/* Theme Toggle - Fixed Position */}
-      <div className="fixed top-4 right-4 z-50">
-        <ThemeToggle size="md" variant="default" showLabel />
+    <div className="min-h-screen relative flex items-center justify-center p-4 overflow-hidden">
+      {/* Cosmic Background - Moon/Earthrise */}
+      <div className="absolute inset-0">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('/moon-earthrise.jpg')`,
+          }}
+        />
+        {/* Cosmic Overlay - Slightly warmer for signup */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-indigo-900/85 to-purple-900/90 dark:from-slate-950/98 dark:via-indigo-950/95 dark:to-purple-950/95" />
+
+        {/* Animated Stars */}
+        <div className="absolute inset-0">
+          {[...Array(120)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 3}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Cosmic Energy Waves */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-3 h-3 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full animate-pulse-slow"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 8}s`,
+                animationDuration: `${15 + Math.random() * 10}s`,
+              }}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Background Effects - Theme Aware */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-accent)]/5 via-transparent to-[var(--color-success)]/5" />
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[var(--color-success)]/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[var(--color-accent)]/5 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.02] dark:opacity-[0.05]" />
+      {/* Theme Toggle */}
+      <div className="fixed top-6 right-6 z-50">
+        <ThemeToggle size="lg" variant="cosmic" showLabel />
       </div>
 
       {/* Main Content */}
-      <div className="w-full max-w-md mx-auto relative z-10">
-        <div className="bg-[var(--color-surface-elevated)] border border-[var(--color-border)] rounded-3xl shadow-[var(--shadow-xl)] p-8 relative overflow-hidden backdrop-blur-sm">
-          {/* Card Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-success)]/2 via-transparent to-[var(--color-accent)]/2 pointer-events-none" />
+      <div className="w-full max-w-lg mx-auto relative z-10">
+        {/* Carl Sagan Inspiration for Legal Journey */}
+        <div className="text-center mb-8 px-6">
+          <blockquote className="text-blue-100/90 text-lg font-light italic leading-relaxed mb-4">
+            "Every saint and sinner in the history of our species lived there—on a mote of dust suspended in a sunbeam. We are all made of star-stuff."
+          </blockquote>
+          <cite className="text-blue-200/70 text-sm font-medium">
+            — Carl Sagan, to every soul seeking justice and truth
+          </cite>
+        </div>
+
+        {/* Auth Card */}
+        <div className="bg-slate-800/40 dark:bg-slate-900/60 backdrop-blur-xl border border-purple-400/20 rounded-3xl shadow-2xl shadow-purple-900/20 p-8 relative overflow-hidden">
+          {/* Card Cosmic Glow */}
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-400/5 via-transparent to-blue-400/5 pointer-events-none" />
+          <div className="absolute -top-20 -right-20 w-40 h-40 bg-purple-400/10 rounded-full blur-3xl" />
+          <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-blue-400/10 rounded-full blur-3xl" />
 
           {/* Logo and Title */}
           <div className="text-center mb-8 relative z-10">
             <Link href="/" className="inline-flex items-center gap-3 group mb-6">
-              <div className="w-12 h-12 rounded-xl bg-[var(--color-accent)] flex items-center justify-center shadow-lg group-hover:shadow-[var(--color-accent)]/25 transition-all duration-300">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center shadow-lg shadow-purple-500/25 group-hover:shadow-purple-500/40 transition-all duration-300 group-hover:scale-105">
                 <svg
-                  width="24"
-                  height="24"
+                  width="28"
+                  height="28"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="text-[var(--color-accent-text)]"
+                  className="text-white"
                 >
-                  <path d="M3 6l3 6 3-6" />
-                  <path d="M21 6l-3 6-3-6" />
-                  <path d="M12 3v18" />
-                  <path d="M8 21h8" />
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M12 1v6m0 6v6" />
+                  <path d="m4.2 4.2 4.2 4.2m5.6 0 4.2-4.2m-4.2 13.6 4.2 4.2M4.2 19.8l4.2-4.2" />
                 </svg>
               </div>
-              <span className="text-2xl font-bold text-[var(--color-text-primary)]">CaseOS™</span>
+              <span className="text-3xl font-bold bg-gradient-to-r from-purple-200 to-blue-200 bg-clip-text text-transparent">
+                CaseOS™
+              </span>
             </Link>
 
-            <h1 className="text-3xl font-bold text-[var(--color-text-primary)] mb-2">
-              Create Account
+            <h1 className="text-4xl font-bold text-white mb-3">
+              Begin Your Journey
             </h1>
-            <p className="text-[var(--color-text-secondary)]">
-              Join thousands of self-represented litigants
+            <p className="text-purple-200/80 text-lg">
+              Join thousands navigating the legal cosmos
             </p>
           </div>
 
-          {/* Benefits Section */}
-          <div className="mb-6 p-4 bg-gradient-to-br from-[var(--color-success)]/10 to-[var(--color-accent)]/10 border border-[var(--color-success)]/20 rounded-xl">
-            <h3 className="text-[var(--font-size-sm)] font-semibold text-[var(--color-text-primary)] mb-3 flex items-center gap-2">
-              <Shield size={16} className="text-[var(--color-success)]" />
-              Why join CaseOS?
+          {/* Legal Empowerment Benefits */}
+          <div className="mb-8 p-6 bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-400/20 rounded-2xl backdrop-blur-sm">
+            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-3">
+              <Scale size={20} className="text-purple-400" />
+              Your Legal Rights Await
             </h3>
-            <ul className="space-y-2 text-[var(--font-size-xs)] text-[var(--color-text-secondary)]">
-              <li className="flex items-center gap-2">
-                <CheckCircle size={12} className="text-[var(--color-success)] flex-shrink-0" />
-                AI-powered legal document generation
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle size={12} className="text-[var(--color-success)] flex-shrink-0" />
-                Case management and deadline tracking
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle size={12} className="text-[var(--color-success)] flex-shrink-0" />
-                Expert legal research assistance
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle size={12} className="text-[var(--color-success)] flex-shrink-0" />
-                24/7 support from legal professionals
-              </li>
-            </ul>
+            <div className="grid grid-cols-1 gap-3 text-sm">
+              <div className="flex items-center gap-3 text-purple-200/90">
+                <CheckCircle size={16} className="text-purple-400 flex-shrink-0" />
+                <span>AI-powered legal document generation</span>
+              </div>
+              <div className="flex items-center gap-3 text-purple-200/90">
+                <CheckCircle size={16} className="text-purple-400 flex-shrink-0" />
+                <span>Case strategy and deadline management</span>
+              </div>
+              <div className="flex items-center gap-3 text-purple-200/90">
+                <CheckCircle size={16} className="text-purple-400 flex-shrink-0" />
+                <span>Expert legal research assistance</span>
+              </div>
+              <div className="flex items-center gap-3 text-purple-200/90">
+                <CheckCircle size={16} className="text-purple-400 flex-shrink-0" />
+                <span>24/7 support from legal professionals</span>
+              </div>
+              <div className="flex items-center gap-3 text-purple-200/90">
+                <CheckCircle size={16} className="text-purple-400 flex-shrink-0" />
+                <span>Community of fellow self-represented litigants</span>
+              </div>
+            </div>
           </div>
 
-          {/* Enhanced Auth Form */}
-          <EnhancedAuthForm mode="signup" />
+          {/* Cosmic Auth Form */}
+          <CosmicAuthForm mode="signup" />
 
-          {/* Footer Links */}
+          {/* Already have account */}
           <div className="mt-8 text-center space-y-4 relative z-10">
-            <p className="text-[var(--color-text-secondary)] text-[var(--font-size-sm)]">
-              Already have an account?{' '}
+            <p className="text-purple-200/70 text-sm">
+              Already exploring the legal cosmos?{' '}
               <Link
                 href="/auth/signin"
-                className="text-[var(--color-accent)] hover:text-[var(--color-accent-hover)] font-medium transition-colors duration-200"
+                className="text-purple-300 hover:text-purple-200 font-medium transition-colors duration-200 underline underline-offset-2"
               >
-                Sign in
+                Continue your journey
               </Link>
             </p>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="mt-6 pt-6 border-t border-[var(--color-border)]">
-            <div className="flex items-center justify-center gap-6 text-[var(--color-text-tertiary)]">
-              <div className="flex items-center gap-1">
-                <Shield size={14} />
-                <span className="text-[var(--font-size-xs)]">Secure</span>
+          {/* Trust & Community Indicators */}
+          <div className="mt-8 pt-6 border-t border-purple-400/20">
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div className="flex flex-col items-center gap-2 text-purple-200/70">
+                <Shield size={20} className="text-purple-400" />
+                <span className="text-xs font-medium">Secure & Private</span>
               </div>
-              <div className="flex items-center gap-1">
-                <Zap size={14} />
-                <span className="text-[var(--font-size-xs)]">Fast Setup</span>
+              <div className="flex flex-col items-center gap-2 text-purple-200/70">
+                <BookOpen size={20} className="text-purple-400" />
+                <span className="text-xs font-medium">Legal Expertise</span>
               </div>
-              <div className="flex items-center gap-1">
-                <Users size={14} />
-                <span className="text-[var(--font-size-xs)]">10k+ Users</span>
+              <div className="flex flex-col items-center gap-2 text-purple-200/70">
+                <Heart size={20} className="text-purple-400" />
+                <span className="text-xs font-medium">10k+ Supported</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Legal Disclaimer */}
-        <p className="mt-8 text-center text-[var(--color-text-tertiary)] text-[var(--font-size-xs)] px-4">
-          By creating an account, you agree to our{' '}
+        {/* Legal Disclaimer with Cosmic Theme */}
+        <p className="mt-8 text-center text-purple-200/50 text-xs px-4 leading-relaxed">
+          By creating your account, you join our constellation and agree to our{' '}
           <Link
             href="/terms"
-            className="underline hover:text-[var(--color-text-secondary)] transition-colors"
+            className="underline hover:text-purple-200/70 transition-colors"
           >
-            Terms of Service
+            Galactic Terms
           </Link>{' '}
           and{' '}
           <Link
             href="/privacy"
-            className="underline hover:text-[var(--color-text-secondary)] transition-colors"
+            className="underline hover:text-purple-200/70 transition-colors"
           >
-            Privacy Policy
+            Privacy Protocols
           </Link>
         </p>
+
+        {/* Inspiring Legal Quote */}
+        <div className="mt-8 text-center">
+          <p className="text-purple-200/60 text-sm italic">
+            "Justice is truth in action. Your journey to justice begins with a single step into the cosmos of law."
+          </p>
+        </div>
       </div>
 
       {/* Command Palette Hint */}
-      <div className="fixed bottom-4 right-4 text-[var(--color-text-tertiary)] text-[var(--font-size-xs)] flex items-center gap-2">
-        <kbd className="px-2 py-1 bg-[var(--color-surface)] border border-[var(--color-border)] rounded text-[var(--color-text-secondary)]">⌘K</kbd>
-        <span>to search</span>
+      <div className="fixed bottom-6 right-6 text-purple-200/60 text-xs flex items-center gap-2">
+        <kbd className="px-3 py-2 bg-slate-800/60 border border-purple-400/20 rounded-lg text-purple-200/80 font-mono backdrop-blur-sm">
+          ⌘K
+        </kbd>
+        <span>to navigate the cosmos</span>
       </div>
+
+      {/* CSS Animation for cosmic effects */}
+      <style jsx>{`
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .animate-pulse-slow {
+          animation: pulse-slow 20s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }
