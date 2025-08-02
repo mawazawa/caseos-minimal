@@ -11,6 +11,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Providers } from "./providers";
 import { CommandPalette } from "./components/motion";
@@ -84,6 +85,8 @@ export default function RootLayout({
           <CommandPalette />
           {/* Vercel Analytics */}
           <Analytics />
+          {/* Vercel Speed Insights */}
+          <SpeedInsights />
         </Providers>
       </body>
     </html>
