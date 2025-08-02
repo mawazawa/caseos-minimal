@@ -15,6 +15,7 @@ import { Sun, Moon, Monitor } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useTheme } from './theme-provider';
 import { useState } from 'react';
+import { ThemeSwitch } from '../ui/theme-switch';
 
 /**
  * Animation variants for smooth icon transitions
@@ -98,15 +99,7 @@ export function ThemeToggle({
     lg: 16
   };
 
-  // Button size classes
-  const buttonSizes = {
-    sm: 'h-5 w-5',
-    md: 'h-6 w-6',
-    lg: 'h-8 w-8'
-  };
-
   const iconSize = iconSizes[size];
-  const buttonSize = buttonSizes[size];
 
   /**
    * Get the appropriate icon for the current theme
@@ -154,40 +147,7 @@ export function ThemeToggle({
   };
 
   if (variant === 'compact') {
-    return (
-      <motion.button
-        onClick={handleToggle}
-        className={clsx(
-          'relative rounded-md flex items-center justify-center',
-          'text-[var(--color-text-secondary)]',
-          'hover:bg-[var(--color-background-secondary)]',
-          'hover:text-[var(--color-text-primary)]',
-          'transition-colors duration-200',
-          'focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:ring-offset-2',
-          buttonSize,
-          className
-        )}
-        variants={buttonVariants}
-        initial="idle"
-        whileHover="hover"
-        whileTap="tap"
-        aria-label={getThemeLabel()}
-        title={getThemeLabel()}
-      >
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={`${theme}-${resolvedTheme}`}
-            variants={iconVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            className="flex items-center justify-center"
-          >
-            {getCurrentIcon()}
-          </motion.span>
-        </AnimatePresence>
-      </motion.button>
-    );
+    return <ThemeSwitch className={className} />;
   }
 
   // Full variant with optional menu

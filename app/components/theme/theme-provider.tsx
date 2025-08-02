@@ -39,17 +39,17 @@ function getSystemTheme(): ResolvedTheme {
 
 /**
  * Gets the stored theme preference from localStorage
- * Returns 'system' as default if no preference is stored
+ * Returns 'dark' as default if no preference is stored
  */
 function getStoredTheme(): Theme {
-  if (typeof window === 'undefined') return 'system';
+  if (typeof window === 'undefined') return 'dark';
 
   try {
     const stored = localStorage.getItem(STORAGE_KEY) as Theme;
-    return stored || 'system';
+    return stored || 'dark';
   } catch (error) {
     console.warn('⚠️  Failed to read theme from localStorage:', error);
-    return 'system';
+    return 'dark';
   }
 }
 
@@ -111,7 +111,7 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({
   children,
-  defaultTheme = 'system',
+  defaultTheme = 'dark',
   enableSystem = true,
   enableTransitions = true
 }: ThemeProviderProps) {
@@ -242,7 +242,7 @@ export function useTheme(): ThemeContextType {
 export const THEME_SCRIPT = `
 (function() {
   try {
-    var theme = localStorage.getItem('${STORAGE_KEY}') || 'system';
+    var theme = localStorage.getItem('${STORAGE_KEY}') || 'dark';
     var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     var resolvedTheme = theme === 'system' ? systemTheme : theme;
 

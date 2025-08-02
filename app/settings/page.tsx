@@ -8,11 +8,17 @@
  * Settings Page - CaseOS Legal AI Platform
  */
 
-import { Settings, User, Shield, Bell } from 'lucide-react';
+'use client';
+
+import { Settings, User, Shield, Bell, Palette } from 'lucide-react';
 import { AppLayout, PageHeader, PageContent } from '../components/layout/app-layout';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/card';
+import { ThemeSwitch } from '../components/ui/theme-switch';
+import { useTheme } from '../components/theme';
 
 export default function SettingsPage() {
+  const { resolvedTheme } = useTheme();
+
   const settingSections = [
     {
       title: 'Profile Settings',
@@ -40,6 +46,32 @@ export default function SettingsPage() {
 
       <PageContent>
         <div className="space-y-4">
+          {/* Theme Settings - Active Section */}
+          <Card variant="elevated" padding="lg">
+            <CardContent>
+              <div className="flex items-start gap-4">
+                <div className="text-[var(--color-text-secondary)]">
+                  <Palette className="w-5 h-5" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-[var(--color-text-primary)] mb-1">
+                    Appearance
+                  </h3>
+                  <p className="text-[var(--color-text-secondary)] text-sm mb-4">
+                    Choose your preferred theme mode
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <ThemeSwitch />
+                    <span className="text-[var(--color-text-secondary)] text-sm">
+                      {resolvedTheme === 'dark' ? 'Dark mode' : 'Light mode'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Other Settings Sections */}
           {settingSections.map((section) => (
             <Card key={section.title} variant="elevated" padding="lg">
               <CardContent>
