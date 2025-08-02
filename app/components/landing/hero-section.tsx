@@ -204,7 +204,7 @@ export function HeroSection() {
                   Start Free Trial
                 </Button>
               </Link>
-              
+
               <Link href="#demo">
                 <Button
                   variant="secondary"
